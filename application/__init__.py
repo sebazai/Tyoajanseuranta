@@ -1,4 +1,3 @@
-# Flask käyttöön
 from flask import Flask
 app = Flask(__name__)
 
@@ -12,5 +11,6 @@ db = SQLAlchemy(app)
 from application import views
 
 from application.kirjaus import models
+from application.kirjaus import views
 
 db.create_all()
