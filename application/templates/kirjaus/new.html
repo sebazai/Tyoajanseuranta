@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<form method="POST" action="{{ url_for('kirjaus_create') }}">
+	<input type="date" name="aika" />
+	<input type="time" name="time" />
+	<input type="submit" value="Lisää kirjaus" />
+</form>
+{% endblock %}

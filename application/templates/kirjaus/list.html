@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<table>
+	<tr>
+		<th>Sisäänkirjaus</th>
+		<th>Uloskirjaus</th>
+	</tr>
+
+	{% for kirjaus in kirjauslista %}
+	<tr>
+		<td>{{kirjaus.sisaankirjaus}}</td>
+		<td>{{kirjaus.uloskirjaus}}</td>
+		<td>
+			<form method="POST" action="{{ url_for('kirjaus_uloskirjaus', kirjaus_id=kirjaus.id) }}">
+				<input type="submit" value="Kirjaa ulos!" />
+			</form>
+		</td>
+	</tr>
+	{% endfor %}
+</table>
+{% endblock %}
