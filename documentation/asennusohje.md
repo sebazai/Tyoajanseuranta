@@ -29,4 +29,8 @@
    git push heroku master
    ```
 7. Nyt projekti on avattavissa kerrotussa osoitteessa.
+8. Kirjaudu Herokun hallintapaneeliin (dashboard.heroku.com)
+9. Paina sitä projektin nimeä, jonka äsken loit komennolla `heroku create <projektin nimi>`
+10. Valitse "Settings" ja täältä "Reveal Config Vars"
+11. Lisää KEY kohtaan: `TZ` ja VALUE kohtaan: `Europe/Helsinki`
 
