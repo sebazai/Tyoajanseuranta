@@ -1,7 +1,8 @@
 from application import app, db
 from flask import render_template, request, redirect, url_for
 from application.kirjaus.models import Kirjaus
-import datetime, time
+from application.kirjaus.forms import KirjausForm
+from datetime import datetime, time, date
 
 @app.route("/kirjaus", methods=["GET"])
 def kirjaus_index():
@@ -9,7 +10,7 @@ def kirjaus_index():
 
 @app.route("/kirjaus/new/")
 def kirjaus_form():
-    return render_template("kirjaus/new.html")
+    return render_template("kirjaus/new.html", form = KirjausForm())
 
 @app.route("/kirjaus/<kirjaus_id>/", methods=["POST"])
 def kirjaus_uloskirjaus(kirjaus_id):
@@ -22,9 +23,13 @@ def kirjaus_uloskirjaus(kirjaus_id):
 
 @app.route("/kirjaus/", methods=["POST"])
 def kirjaus_create():
-    sisaankirjausPvm = datetime.datetime.strptime(request.form.get("aika") + ' ' + request.form.get("time"), "%Y-%m-%d %H:%M")   
-
-    kirjaus = Kirjaus(sisaankirjausPvm)
+    form = KirjausForm(request.form)
+    #sisaankirjausPvm = datetime.datetime.strptime(form.aika.data + ' ' + form.time.data, "%Y-%m-%d %H:%M")
+    sisaan = datetime.combine(form.aika.data, form.time.data)
+    #uloskirjausPvm = datetime.datetime.strptime(form.aika.data + ' ' + form.timeout.data, "%Y-%m-%d %H:%M")
+    ulos = datetime.combine(form.aika.data, form.timeout.data)
+    kirjaus = Kirjaus(sisaan)
+    kirjaus.uloskirjaus = ulos
     db.session().add(kirjaus)
     db.session().commit()
     
