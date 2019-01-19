@@ -2,8 +2,36 @@
 
 {% block body %}
 <form method="POST" action="{{ url_for('kirjaus_create') }}">
-	<input type="date" name="aika" />
-	<input type="time" name="time" />
-	<input type="submit" value="Lisää kirjaus" />
+	<table>
+	<tr>
+	<td>
+	  {{ form.aika.label }}
+	</td>
+	<td>
+	  {{ form.aika }}
+	</td>
+      </tr>
+      <tr>
+	<td>
+		{{form.time.label}}
+	</td>
+	<td>
+	  {{ form.time }}
+	</td>
+      </tr>
+      <tr>
+	<td>
+	  {{ form.timeout.label }}
+	</td>
+	<td>
+	  {{ form.timeout }}
+	</td>
+      </tr>
+      <tr>
+	<td colspan="2">
+	  <input type="submit" value="Lisää" />
+	</td>
+      </tr>
+	</table>
 </form>
 {% endblock %}
