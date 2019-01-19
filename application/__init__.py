@@ -12,6 +12,7 @@ else:
     #tietokanta tuntikirjaus ja tulosta SQL-kyselyt
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///tuntikirjaus.db"
     app.config["SQLALCHEMY_ECHO"] = True
+
 db = SQLAlchemy(app)
 
 from application import views
@@ -37,6 +38,7 @@ login_manager.login_message = "Please login to use this functionality."
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
+
 try:
     db.create_all()
 except:
