@@ -52,7 +52,8 @@ def kirjaus_sisaan():
 @login_required
 def kirjaus_create():
     form = KirjausForm(request.form)
-
+    if form.timeout.data < form.time.data:
+        return render_template("kirjaus/new.html", form = form, error = "Aika ulos ei voi olla pienempi kuin aika sisään")
     if not form.validate():
         return render_template("kirjaus/new.html", form = form)
     
