@@ -21,11 +21,19 @@ def kirjaus_form():
 @app.route("/kirjaus/<kirjaus_id>/", methods=["POST"])
 @login_required
 def kirjaus_uloskirjaus(kirjaus_id):
+
     kirjaus = Kirjaus.query.get(kirjaus_id)
     now = datetime.now()
     kirjaus.uloskirjaus = datetime(now.year, now.month, now.day, now.hour, now.minute)
     db.session().commit()
 
+    return redirect(url_for("kirjaus_index"))
+
+@app.route("/kirjaus/delete/<kirjaus_id>", methods=["POST"])
+@login_required
+def kirjaus_poista(kirjaus_id):
+    Kirjaus.query.filter_by(id = kirjaus_id).delete()
+    db.session().commit()
     return redirect(url_for("kirjaus_index"))
 
 @app.route("/kirjaus/sisaan", methods=["POST"])

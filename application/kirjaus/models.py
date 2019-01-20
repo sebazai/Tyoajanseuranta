@@ -1,6 +1,7 @@
 from application import db
 from flask_login import login_required, current_user
 from application.models import Base
+from datetime import datetime, date
 
 from sqlalchemy.sql import text
 
@@ -24,6 +25,6 @@ class Kirjaus(Base):
         res = db.engine.execute(stmt)
         palautus = []
         for row in res:
-            palautus.append({"id":row[0],"sisaankirjaus":row[3], "uloskirjaus":row[4]})
+            palautus.append({"id":row[0], "sisaankirjaus":datetime.strftime(datetime.strptime(row[3], "%Y-%m-%d %H:%M:%S.%f"), "%Y-%m-%d %H:%M:%S"), "uloskirjaus":row[4]})
         return palautus
         
