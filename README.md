@@ -6,7 +6,8 @@ myös tiedot kunkin työntekijään yksityiskohtaisista kirjauksista.
 
 Toimintoja:
 * Kirjautuminen
-* Työajan kirjauksen teko
+* Leimaus sisään ja ulos
+* Työaikakirjauksen teko
 * Asiakkuuden/projektin perustaminen
 * Henkilön liittäminen/poistaminen asiakkuudesta/projektista
 * Asiakkaan raportit
