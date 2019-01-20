@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block body %}
-	<p>
-	Hello world!
-	</p>
+<form method="POST" action="{{ url_for('kirjaus_sisaan') }}">
+	<input type="submit" value="Leimaa sisään" />
+</form>
 {% endblock %}

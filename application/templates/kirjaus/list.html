@@ -12,9 +12,11 @@
 		<td>{{kirjaus.sisaankirjaus}}</td>
 		<td>{{kirjaus.uloskirjaus}}</td>
 		<td>
+			{% if kirjaus.uloskirjaus is none %}
 			<form method="POST" action="{{ url_for('kirjaus_uloskirjaus', kirjaus_id=kirjaus.id) }}">
 				<input type="submit" value="Kirjaa ulos!" />
 			</form>
+			{% endif %}
 		</td>
 	</tr>
 	{% endfor %}
