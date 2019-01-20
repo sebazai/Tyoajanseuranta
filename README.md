@@ -13,6 +13,9 @@ Toimintoja:
 * Käyttäjän työraportti
 * Pääkäyttäjän/esimiehen raportit 
 
+# Linkkejä ja tietoa
+
+Admin tunnus: admin/adminpw
 
 [Heroku](https://tsoha-tyoajanseuranta.herokuapp.com/)
-
+[Asennusohje](https://github.com/sebazai/tsoha-tyoajanseuranta/blob/master/documentation/asennusohje.md)
