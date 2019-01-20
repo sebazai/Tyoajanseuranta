@@ -6,11 +6,12 @@ from application.kirjaus.models import Kirjaus
 from application.kirjaus.forms import KirjausForm
 
 from datetime import datetime, time, date
+from sqlalchemy import desc
 
 @app.route("/kirjaus", methods=["GET"])
 @login_required
 def kirjaus_index():
-    return render_template("kirjaus/list.html", kirjauslista = Kirjaus.query.all())
+    return render_template("kirjaus/list.html", kirjauslista = Kirjaus.query.order_by(desc(Kirjaus.sisaankirjaus)).all())
 
 @app.route("/kirjaus/new/")
 @login_required
@@ -27,6 +28,18 @@ def kirjaus_uloskirjaus(kirjaus_id):
 
     return redirect(url_for("kirjaus_index"))
 
+@app.route("/kirjaus/sisaan", methods=["POST"])
+@login_required
+def kirjaus_sisaan():
+    now = datetime.now()
+    kirjaus_sisaan = Kirjaus(datetime(now.year, now.month, now.day, now.hour, now.minute))
+    kirjaus_sisaan.account_id = current_user.id
+
+    db.session().add(kirjaus_sisaan)
+    db.session().commit()
+
+    return redirect(url_for("kirjaus_index"))
+
 @app.route("/kirjaus/", methods=["POST"])
 @login_required
 def kirjaus_create():
@@ -37,9 +50,12 @@ def kirjaus_create():
     
     sisaan = datetime.combine(form.aika.data, form.time.data)
     ulos = datetime.combine(form.aika.data, form.timeout.data)
-    
+
+    minuutit = (int((ulos - sisaan).total_seconds())/60)
+            
     kirjaus = Kirjaus(sisaan)
     kirjaus.uloskirjaus = ulos
+    kirjaus.tehdytMinuutit = minuutit
     kirjaus.account_id = current_user.id
 
     db.session().add(kirjaus)
