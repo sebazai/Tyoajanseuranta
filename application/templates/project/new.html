@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block body %}
+{{ error }}
+<form method="POST" action="{{ url_for('project_create') }}">
+	<table>
+	<tr>
+	<td>
+	  {{ form.name.label }}
+	</td>
+	<td>
+	  {{ form.name }}
+	</td>
+      </tr>
+      <tr>
+	<td>
+		{{form.customer.label}}
+	</td>
+	<td>
+	  {{ form.customer }}
+	</td>
+      </tr>
+      <tr>
+	<td>
+	  {{ form.vakiotyoaika.label }}
+	</td>
+	<td>
+	  {{ form.vakiotyoaika }}
+	</td>
+      </tr>
+      <tr>
+	<td colspan="2">
+	  <input type="submit" value="Lisää projekti" />
+	</td>
+      </tr>
+	</table>
+</form>
+{% endblock %}
