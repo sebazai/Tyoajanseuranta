@@ -23,3 +23,5 @@ Admin tunnus: admin/adminpw
 [Asennusohje](https://github.com/sebazai/tsoha-tyoajanseuranta/blob/master/documentation/asennusohje.md)
 
 [Tietokantakaavio](https://github.com/sebazai/tsoha-tyoajanseuranta/blob/master/documentation/tietokantakaavio.png)
+
+[Käyttäjätarinoita](https://github.com/sebazai/tsoha-tyoajanseuranta/blob/master/documentation/userstories.md)
