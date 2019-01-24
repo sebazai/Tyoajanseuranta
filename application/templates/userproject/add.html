@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block body %}
+{{ error }}
+<form method="POST" action="{{ url_for('userproject_create') }}">
+	<table>
+	<tr>
+	<td>
+	  {{ form.project.label }}
+	</td>
+	<td>
+	  {{ form.project }}
+	</td>
+      </tr>
+      <tr>
+	      <td> {{ form.users.label }} </td>
+	      <td> {{ form.users }} </td>
+	</tr>
+	<tr>
+		<td> {{ form.asiakas.label }} </td>
+		<td> {{ form.asiakas }} </td>
+	</tr>
+      <tr>
+	<td colspan="2">
+	  <input type="submit" value="Liitä käyttäjä projektiin" />
+	</td>
+      </tr>
+	</table>
+</form>
+{% endblock %}
