@@ -11,7 +11,7 @@ from sqlalchemy import desc
 @app.route("/kirjaus", methods=["GET"])
 @login_required
 def kirjaus_index():
-    return render_template("kirjaus/list.html", kirjauslista = Kirjaus.query.order_by(desc(Kirjaus.sisaankirjaus)).all())
+    return render_template("kirjaus/list.html", kirjauslista = Kirjaus.query.filter(Kirjaus.account_id == current_user.id).order_by(desc(Kirjaus.sisaankirjaus)).all())
 
 @app.route("/kirjaus/new/")
 @login_required
