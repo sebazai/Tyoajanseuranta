@@ -5,7 +5,7 @@ from application.models import Base
 from sqlalchemy.sql import text
 
 class Projekti(Base):
-    
+    id = db.Column(db.Integer, primary_key=True) 
     name = db.Column(db.String(144), nullable=False)
     customer = db.Column(db.String(144), nullable=False)
     vakiotyoaika = db.Column(db.Integer, nullable=True)
