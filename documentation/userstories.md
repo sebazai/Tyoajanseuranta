@@ -21,11 +21,11 @@ Käyttäjänä voin kirjata työajan.
 * Käyttäjä voi leimata ulos, mikäli on leimannut sisään.
 
 ```sql
-INSERT INTO kirjaus (date_created, date_modified, sisaankirjaus, uloskirjaus, "tehdytMinuutit", kertyma, account_id) 
-VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, <sisaankirjaus_aika>, <uloskirjaus_aika>, <tehdyt_minuutit_laskukaava>, <kertyma>, <kirjautuneen_käyttäjän_id>);
+INSERT INTO kirjaus (sisaankirjaus, uloskirjaus, "tehdytMinuutit", kertyma, account_id) 
+VALUES (<sisaankirjaus_aika>, <uloskirjaus_aika>, <tehdyt_minuutit>, <kertyma>, <kirjautuneen_käyttäjän_id>);
 
-INSERT INTO kirjaus (date_created, date_modified, sisaankirjaus, uloskirjaus, "tehdytMinuutit", kertyma, account_id) 
-VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, <sisaankirjaus_aika_nyt>, <NULL>, <NULL>, <NULL>, <kirjautuneen_käyttäjän_id>);
+INSERT INTO kirjaus (sisaankirjaus, uloskirjaus, "tehdytMinuutit", kertyma, account_id) 
+VALUES (<sisaankirjaus_aika_nyt>, <NULL>, <NULL>, <NULL>, <kirjautuneen_käyttäjän_id>);
 
 SELECT * FROM Kirjaus WHERE account_id = ? AND uloskirjaus IS NULL;
 UPDATE kirjaus 
