@@ -26,6 +26,9 @@ from application.auth import views
 from application.project import models
 from application.project import views
 
+from application.userproject import models
+from application.userproject import views
+
 #login
 from application.auth.models import User
 from os import urandom
@@ -46,3 +49,4 @@ try:
     db.create_all()
 except:
     pass
+
