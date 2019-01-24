@@ -6,11 +6,11 @@ Tälle sivulle on koottu käyttäjätarinoita projektiin liittyen. Käyttäjäta
 
 Käyttäjänä voin nähdä kaikki merkatut työaikani "Merkatut työajat" linkin kautta.
 
-* Käyttäjä voi tarkastella kirjaamia työaikoja.
+* Käyttäjä voi tarkastella kirjaamiaan työaikoja.
 * Käyttäjä näkee viimeisimmän sisäänleimauksen, mikäli ei ole leimannut ulos.
 
 ```sql
-SELECT * FROM kirjaus ORDER BY kirjaus.sisaankirjaus DESC;
+SELECT * FROM kirjaus WHERE account_id = <kirjautunut_id> ORDER BY kirjaus.sisaankirjaus DESC;
 
 SELECT * FROM Kirjaus WHERE account_id = ? AND uloskirjaus IS NULL;
 
