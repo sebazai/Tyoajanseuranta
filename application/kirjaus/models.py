@@ -3,6 +3,8 @@ from flask_login import login_required, current_user
 from application.models import Base
 from datetime import datetime, date
 
+import os
+
 from sqlalchemy.sql import text
 
 class Kirjaus(Base):
@@ -25,6 +27,6 @@ class Kirjaus(Base):
         res = db.engine.execute(stmt)
         palautus = []
         for row in res:
-            palautus.append({"id":row[0], "sisaankirjaus":datetime.strftime(datetime.strptime(row[3], "%Y-%m-%d %H:%M:%S.%f"), "%Y-%m-%d %H:%M:%S"), "uloskirjaus":row[4]})
+            palautus.append({"id":row[0], "sisaankirjaus":datetime.strftime(row[3] if os.environ.get("HEROKU") else datetime.strptime(row[3], "%Y-%m-%d %H:%M:%S.%f"), "%Y-%m-%d %H:%M:%S"), "uloskirjaus":row[4]})
         return palautus
         
