@@ -2,7 +2,7 @@
 
 Tälle sivulle on koottu käyttäjätarinoita projektiin liittyen. Käyttäjätarinoiden alle on kirjattu ehtoja, joiden kautta nämä katsotaan toteutuneeksi. Jokaisen käyttäjätarinan kohdalla on myös avattu SQL-lauseet ja tarvittaessa täydennetty pseudokoodilla.
 
-1. Oman työajan selaaminen
+#### 1. Oman työajan selaaminen
 
 Käyttäjänä voin nähdä kaikki merkatut työaikani "Merkatut työajat" linkin kautta.
 
@@ -16,7 +16,7 @@ SELECT * FROM Kirjaus WHERE account_id = ? AND uloskirjaus IS NULL;
 
 ```
 
-2. Työajan kirjaaminen
+#### 2. Työajan kirjaaminen
 
 Käyttäjänä voin kirjata työajan.
 
@@ -37,7 +37,7 @@ WHERE kirjaus.id = <kirjaus_id_lomakkeesta>;
 
 ```
 
-3. Kirjautuminen
+#### 3. Kirjautuminen
 
 Käyttäjä voi kirjautua sisään.
 
