@@ -7,9 +7,13 @@ Tälle sivulle on koottu käyttäjätarinoita projektiin liittyen. Käyttäjäta
 Käyttäjänä voin nähdä kaikki merkatut työaikani "Merkatut työajat" linkin kautta.
 
 * Käyttäjä voi tarkastella kirjaamia työaikoja.
+* Käyttäjä näkee viimeisimmän sisäänleimauksen, mikäli ei ole leimannut ulos.
 
 ```sql
 SELECT * FROM kirjaus ORDER BY kirjaus.sisaankirjaus DESC;
+
+SELECT * FROM Kirjaus WHERE account_id = ? AND uloskirjaus IS NULL;
+
 ```
 
 2. Työajan kirjaaminen
@@ -27,7 +31,6 @@ VALUES (<sisaankirjaus_aika>, <uloskirjaus_aika>, <tehdyt_minuutit>, <kertyma>, 
 INSERT INTO kirjaus (sisaankirjaus, uloskirjaus, "tehdytMinuutit", kertyma, account_id) 
 VALUES (<sisaankirjaus_aika_nyt>, <NULL>, <NULL>, <NULL>, <kirjautuneen_käyttäjän_id>);
 
-SELECT * FROM Kirjaus WHERE account_id = ? AND uloskirjaus IS NULL;
 UPDATE kirjaus 
 SET date_modified=CURRENT_TIMESTAMP, uloskirjaus=<uloskirjaus_aika_nyt> 
 WHERE kirjaus.id = <kirjaus_id_lomakkeesta>;
