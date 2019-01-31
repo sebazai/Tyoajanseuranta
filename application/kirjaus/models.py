@@ -15,6 +15,7 @@ class Kirjaus(Base):
     kertyma = db.Column(db.Integer, nullable=True)
 
     account_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable=False)
+    userproject_id = db.Column(db.Integer, db.ForeignKey('userproject.id'), nullable=False)
 
     def __init__(self, sisaankirjaus):
         self.sisaankirjaus = sisaankirjaus
