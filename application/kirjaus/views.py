@@ -83,10 +83,10 @@ def kirjaus_create():
 
 @login_required
 def hae_ensisijainen_projekti():
-    stmt = text("SELECT id FROM userproject WHERE account_id = :accountid AND paaprojekti = :true").params(accountid = current_user.id, true = True)
+    stmt = text("SELECT * FROM userproject WHERE account_id = :accountid AND paaprojekti = :true").params(accountid = current_user.id, true = True)
     res = db.session().execute(stmt)
-    row = res.fetchone()
-    projekti = row[0]
+    row = res.first()
+    projekti = row['id']
     return projekti
 
 def laske_kertyma(minuutit, userprojekti):
