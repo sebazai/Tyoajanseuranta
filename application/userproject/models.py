@@ -8,6 +8,7 @@ class Userproject(Base):
     account_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable=False)
     project_id = db.Column(db.Integer, db.ForeignKey('projekti.id'), nullable=False)
     unique_id = db.Column(db.Integer, unique=True, nullable=False)
+    paaprojekti = db.Column(db.Boolean, server_default='False', nullable=False)
 
     def __init__(self, asiakas):
         self.onAsiakas = asiakas

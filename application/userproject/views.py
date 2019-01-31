@@ -13,6 +13,7 @@ from application.userproject.forms import UserProjectForm
 def userproject_form():
     return render_template("userproject/add.html", form = generate_form())
 
+@login_required
 def generate_form():
     stmt = text("SELECT Projekti.id, Projekti.name FROM Projekti")
     stmt2 = text("SELECT id, name FROM account")
@@ -23,14 +24,27 @@ def generate_form():
     form.users.choices = [(user.id, user.name) for user in resusers]
     return form
 
+@login_required
+def tarkista_paaprojekti_ja_vaihda(accountidparam):
+    stmt = text("SELECT * FROM userproject WHERE account_id = :accountid AND paaprojekti = 1").params(accountid=accountidparam)
+    res = db.engine.execute(stmt)
+    if res != None:
+        res.close()
+        stmt2 = text("UPDATE userproject SET paaprojekti = 0 WHERE account_id = :accountid AND paaprojekti = 1").params(accountid=accountidparam)
+        result = db.engine.execute(stmt2)
+
+
 @app.route("/userproject/linkuser/", methods=["POST"])
 @login_required
 def userproject_create():
     form = UserProjectForm(request.form)
-
+    
     userproject = Userproject(form.asiakas.data)
     userproject.account_id = form.users.data
     userproject.project_id = form.project.data
+    if(form.paaprojekti.data == True):
+        tarkista_paaprojekti_ja_vaihda(userproject.account_id)
+    userproject.paaprojekti = form.paaprojekti.data
     userproject.unique_id = int(str(form.users.data) + str(form.project.data))
     
     db.session().add(userproject)

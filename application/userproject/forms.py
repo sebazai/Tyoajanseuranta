@@ -12,5 +12,6 @@ class UserProjectForm(FlaskForm):
     project = SelectField('Projekti')
     users = SelectField('Käyttäjä')
     asiakas = BooleanField('Onko projektin asiakas?')
+    paaprojekti = BooleanField('Pääasiallinen projekti?')
     class Meta:
         csrf = False
