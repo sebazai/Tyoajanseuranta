@@ -26,11 +26,11 @@ def generate_form():
 
 @login_required
 def tarkista_paaprojekti_ja_vaihda(accountidparam):
-    stmt = text("SELECT * FROM userproject WHERE account_id = :accountid AND paaprojekti = 1").params(accountid=accountidparam)
+    stmt = text("SELECT * FROM userproject WHERE account_id = :accountid AND paaprojekti = :projekti").params(accountid=accountidparam, projekti=True)
     res = db.engine.execute(stmt)
     if res != None:
         res.close()
-        stmt2 = text("UPDATE userproject SET paaprojekti = 0 WHERE account_id = :accountid AND paaprojekti = 1").params(accountid=accountidparam)
+        stmt2 = text("UPDATE userproject SET paaprojekti = 0 WHERE account_id = :accountid AND paaprojekti = :projekti").params(accountid=accountidparam, projekti = True)
         result = db.engine.execute(stmt2)
 
 
@@ -43,7 +43,7 @@ def userproject_create():
     userproject.account_id = form.users.data
     userproject.project_id = form.project.data
     if(form.paaprojekti.data == True):
-        tarkista_paaprojekti_ja_vaihda(userproject.account_id)
+        tarkista_paaprojekti_ja_vaihda(form.users.data)
     userproject.paaprojekti = form.paaprojekti.data
     userproject.unique_id = int(str(form.users.data) + str(form.project.data))
     
