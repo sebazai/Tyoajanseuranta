@@ -7,6 +7,7 @@ from application.kirjaus.forms import KirjausForm
 
 from datetime import datetime, time, date
 from sqlalchemy import desc
+from sqlalchemy.sql import text
 
 @app.route("/kirjaus", methods=["GET"])
 @login_required
@@ -24,7 +25,12 @@ def kirjaus_uloskirjaus(kirjaus_id):
 
     kirjaus = Kirjaus.query.get(kirjaus_id)
     now = datetime.now()
-    kirjaus.uloskirjaus = datetime(now.year, now.month, now.day, now.hour, now.minute)
+    muokattuDatetime = datetime(now.year, now.month, now.day, now.hour, now.minute)
+    sisaankirjaus = kirjaus.sisaankirjaus
+    minuutit = (int((muokattuDatetime - sisaankirjaus).total_seconds())/60)
+    kirjaus.tehdytMinuutit = minuutit
+    kirjaus.uloskirjaus = muokattuDatetime;
+    kirjaus.kertyma = laske_kertyma(minuutit, kirjaus.userproject_id)
     db.session().commit()
 
     return redirect(url_for("kirjaus_index"))
@@ -42,7 +48,7 @@ def kirjaus_sisaan():
     now = datetime.now()
     kirjaus_sisaan = Kirjaus(datetime(now.year, now.month, now.day, now.hour, now.minute))
     kirjaus_sisaan.account_id = current_user.id
-
+    kirjaus_sisaan.userproject_id = hae_ensisijainen_projekti()
     db.session().add(kirjaus_sisaan)
     db.session().commit()
 
@@ -66,9 +72,30 @@ def kirjaus_create():
     kirjaus.uloskirjaus = ulos
     kirjaus.tehdytMinuutit = minuutit
     kirjaus.account_id = current_user.id
+    projekti = hae_ensisijainen_projekti()
+    kirjaus.kertyma = laske_kertyma(minuutit, projekti)
+    kirjaus.userproject_id = projekti
 
     db.session().add(kirjaus)
     db.session().commit()
     
     return redirect(url_for("kirjaus_index"))
+
+@login_required
+def hae_ensisijainen_projekti():
+    stmt = text("SELECT id FROM userproject WHERE account_id = :accountid AND paaprojekti = 1").params(accountid = current_user.id)
+    res = db.session().execute(stmt)
+    row = res.fetchone()
+    return row['id']
+
+def laske_kertyma(minuutit, userprojekti):
+    stmtfirst = text("SELECT project_id FROM userproject WHERE userproject.id = :userproject").params(userproject = userprojekti)
+    res2 = db.session().execute(stmtfirst)
+    row2 = res2.fetchone()
+    stmt = text("SELECT vakiotyoaika FROM projekti WHERE id = :projekti_id").params(projekti_id=row2['project_id'])
+    res = db.session().execute(stmt)
+    row = res.fetchone()
+    vakiotyoaika = row['vakiotyoaika']
+    kertyma = minuutit-vakiotyoaika
+    return kertyma
 
