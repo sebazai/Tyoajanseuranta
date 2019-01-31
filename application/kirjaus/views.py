@@ -83,7 +83,7 @@ def kirjaus_create():
 
 @login_required
 def hae_ensisijainen_projekti():
-    stmt = text("SELECT id FROM userproject WHERE account_id = :accountid AND paaprojekti = 1").params(accountid = current_user.id)
+    stmt = text("SELECT id FROM userproject WHERE account_id = :accountid AND paaprojekti = '1'").params(accountid = current_user.id)
     res = db.session().execute(stmt)
     row = res.fetchone()
     return row['id']
