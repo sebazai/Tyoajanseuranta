@@ -30,7 +30,7 @@ def tarkista_paaprojekti_ja_vaihda(accountidparam):
     res = db.engine.execute(stmt)
     if res != None:
         res.close()
-        stmt2 = text("UPDATE userproject SET paaprojekti = 0 WHERE account_id = :accountid AND paaprojekti = :projekti").params(accountid=accountidparam, projekti = True)
+        stmt2 = text("UPDATE userproject SET paaprojekti = 'False' WHERE account_id = :accountid AND paaprojekti = :projekti").params(accountid=accountidparam, projekti = True)
         result = db.engine.execute(stmt2)
 
 
