@@ -30,4 +30,10 @@ class Kirjaus(Base):
         for row in res:
             palautus.append({"id":row[0], "sisaankirjaus":datetime.strftime(row[3] if os.environ.get("HEROKU") else datetime.strptime(row[3], "%Y-%m-%d %H:%M:%S.%f"), "%Y-%m-%d %H:%M:%S"), "uloskirjaus":row[4]})
         return palautus
-        
+    @staticmethod
+    @login_required
+    def get_saldo(userprojektid):
+        stmt = text("SELECT SUM(kertyma) FROM Kirjaus WHERE account_id = :accountid AND userproject_id = :userprojekti").params(accountid = current_user.id, userprojekti = userprojektid)
+        res = db.engine.execute(stmt)
+        for row in res:
+            return row[0]

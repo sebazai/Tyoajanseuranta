@@ -5,18 +5,20 @@ from flask import render_template, request, redirect, url_for
 from application.kirjaus.models import Kirjaus
 from application.kirjaus.forms import KirjausForm
 from application.userproject.models import Userproject
+from application.project.models import Projekti
 
 from datetime import datetime, time, date
 from sqlalchemy import desc
-from sqlalchemy.sql import text
+from sqlalchemy.sql import text, func
 
 @app.route("/kirjaus", methods=["GET"])
 @login_required
 def kirjaus_index():
     userprojekti = Userproject.query.filter(Userproject.account_id == current_user.id, Userproject.paaprojekti == True).first()
-    
+    projekti = Projekti.query.filter(Projekti.id == userprojekti.project_id).first()
     kirjauslista = Kirjaus.query.filter(Kirjaus.account_id == current_user.id, Kirjaus.userproject_id == userprojekti.id).order_by(desc(Kirjaus.sisaankirjaus)).all()
-    return render_template("kirjaus/list.html", kirjauslista = kirjauslista)
+    saldo = Kirjaus.get_saldo(userprojekti.id)
+    return render_template("kirjaus/list.html", kirjauslista = kirjauslista, projekti = projekti.name, saldo = saldo)
 
 @app.route("/kirjaus/new/")
 @login_required
