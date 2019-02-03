@@ -44,8 +44,7 @@ def userproject_create():
     if(form.paaprojekti.data == True):
         tarkista_paaprojekti_ja_vaihda(form.users.data)
     userproject.paaprojekti = form.paaprojekti.data
-    userproject.unique_id = int(str(form.users.data) + str(form.project.data))
-    
+        
     db.session().add(userproject)
     try:
         db.session().commit()
