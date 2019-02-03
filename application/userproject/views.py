@@ -37,21 +37,32 @@ def tarkista_paaprojekti_ja_vaihda(accountidparam):
 @login_required(role="ADMIN")
 def userproject_create():
     form = UserProjectForm(request.form)
-    
-    userproject = Userproject(form.asiakas.data)
-    userproject.account_id = form.users.data
-    userproject.project_id = form.project.data
-    if(form.paaprojekti.data == True):
-        tarkista_paaprojekti_ja_vaihda(form.users.data)
-    userproject.paaprojekti = form.paaprojekti.data
+    if request.form['action'] == "Liitä":
+        userproject = Userproject(form.asiakas.data)
+        userproject.account_id = form.users.data
+        userproject.project_id = form.project.data
+        if(form.paaprojekti.data == True):
+            tarkista_paaprojekti_ja_vaihda(form.users.data)
+        userproject.paaprojekti = form.paaprojekti.data
         
-    db.session().add(userproject)
-    try:
-        db.session().commit()
-    except IntegrityError:
-        db.session.rollback()
-        return render_template("userproject/add.html", form = generate_form(), error = "Käyttäjä on jo liitetty projektiin")
-
+        db.session().add(userproject)
+        try:
+            db.session().commit()
+        except IntegrityError:
+            db.session.rollback()
+            return render_template("userproject/add.html", form = generate_form(), error = "Käyttäjä on jo liitetty projektiin")
+    elif request.form['action'] == "Päivitä":
+        stmt = text("SELECT * FROM userproject WHERE account_id = :accountid AND project_id = :projectid").params(accountid = form.users.data, projectid = form.project.data)
+        res = db.engine.execute(stmt)
+        if res == None:
+            res.close()
+            paivita_kayttaja(form.users.data, form.project.data, form.paaprojekti.data, form.asiakas.data)
+        else:
+            return render_template("userproject/add.html", form = generate_form(), error = "Liitä käyttäjä ensiksi projektiin.")
     return redirect(url_for("index"))
 
+
+def paivita_kayttaja(account_id, projekti_id, paaprojekti, asiakas):
+    stmt = text("UPDATE userproject SET paaprojekti = :paaprojekti, onAsiakas = :onasiakas WHERE account_id = :tili AND project_id = :projekti").params(paaprojekti = paaprojekti, onasiakas = asiakas, tili = account_id, projekti = projekti_id)
+    db.engine.execute(stmt)
 
