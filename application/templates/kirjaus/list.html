@@ -3,9 +3,10 @@
 {% block body %}
 <table>
 	<tr>
-		<th>&nbsp;</th>
+		<th>Toiminto</th>
 		<th>Sisäänkirjaus</th>
 		<th>Uloskirjaus</th>
+		<th>Liukuma</th>
 	</tr>
 
 	{% for kirjaus in kirjauslista %}
@@ -13,16 +14,17 @@
 		<td>
                         {% if kirjaus.uloskirjaus is none %}
                         <form method="POST" action="{{ url_for('kirjaus_uloskirjaus', kirjaus_id=kirjaus.id) }}">
-                                <input type="submit" value="Kirjaa ulos!" />
+                                <input type="submit" class="btn btn-danger" value="Kirjaa ulos!" />
                         </form>
 			{% else %}
 			<form method="POST" action="{{ url_for('kirjaus_poista', kirjaus_id=kirjaus.id) }}">
-				<input type="submit" value="Poista" />
+				<input type="submit" class="btn btn-warning" value="Poista" />
 			</form>
                         {% endif %}
                 </td>
 		<td>{{kirjaus.sisaankirjaus}}</td>
 		<td>{{kirjaus.uloskirjaus}}</td>
+		<td>{{kirjaus.kertyma}} min</td>
 	</tr>
 	{% endfor %}
 </table>
