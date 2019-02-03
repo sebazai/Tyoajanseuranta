@@ -38,21 +38,23 @@
 <br />
 <br />
 <table>
-	<th>Toiminto</th>
+	<th>Poista</th>
 	<th>Projektin nimi</th>
 	<th>Asiakas</th>
 	<th>Työaika</th>
+	<th>Muokkaa</th>
 	{% for projekti in projektit %}
 	
 	<tr>
 		<td>
                    <form method="POST" action="{{ url_for('projekti_poista', project_id=projekti.id) }}">
-		   <input type="submit" class="btn btn-warning" value="Poista" />
+		   <input type="submit" class="btn btn-danger" value="Poista" />
 		   </form>
                 </td>
 		<td>{{projekti.name}}</td>
 		<td>{{projekti.customer}}</td>
 		<td>{{projekti.vakiotyoaika}} min</td>
+		<td><a href="{{ url_for('project_update', project_id=projekti.id) }} "><button class="btn btn-warning">Edit</button></a></td>
 	</tr>
 	{% endfor %}
 </table>
