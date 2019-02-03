@@ -19,6 +19,25 @@ def projekti_poista(project_id):
     db.session().commit()
     return redirect(url_for("project_form"))
 
+@app.route("/project/update/<project_id>", methods = ["GET", "POST"])
+@login_required(role="ADMIN")
+def project_update(project_id):
+    if request.method == "GET":
+        projekti = Projekti.query.get(project_id)
+        form = ProjectForm(name = projekti.name, customer = projekti.customer, vakiotyoaika = projekti.vakiotyoaika)
+        return render_template("project/update.html", form = form, projekti = projekti)
+    
+    form = ProjectForm(request.form)
+    projekti = Projekti.query.get(project_id)
+    if not form.validate():
+        return render_template("project/update.html", form = form, projekti = projekti)
+
+    projekti.name = form.name.data
+    projekti.customer = form.customer.data
+    projekti.vakiotyoaika = form.vakiotyoaika.data
+
+    db.session().commit()
+    return redirect(url_for('project_form'))
 
 @app.route("/project/create/", methods=["POST"])
 @login_required(role="ADMIN")
