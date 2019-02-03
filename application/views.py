@@ -1,4 +1,4 @@
-from flask import render_template, url_for
+from flask import render_template, url_for, redirect
 from application import app
 
 from flask_login import login_required, current_user
@@ -13,6 +13,6 @@ def index():
     kirjausaika = Kirjaus.find_kirjaus_with_null()
     if not kirjausaika:
         return render_template("index.html")
-    return render_template("kirjaus/list.html", kirjauslista = kirjausaika)
+    return redirect(url_for("kirjaus_index"))
     
 
