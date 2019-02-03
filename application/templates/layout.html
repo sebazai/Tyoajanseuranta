@@ -14,22 +14,25 @@
 	</button>
 	<div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
+		  {% if (current_user.role == 'USER') or (current_user.role == 'ADMIN') %}
+	    <li class="nav-item">
               <a class="nav-link" href="{{ url_for('kirjaus_index') }} ">Merkatut työajat</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('kirjaus_form') }} ">Lisää työaika</a>
             </li>
-
+	    	{% endif %}
+		{% if current_user.role == 'ADMIN' %}
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('auth_register') }} ">Lisää käyttäjä</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('project_form') }} ">Lisää projekti</a>
+              <a class="nav-link" href="{{ url_for('project_form') }} ">Luo tai poista projekti</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('userproject_form') }} ">Hallinnoi projekteja</a>
             </li>
+	    {% endif %}
           </ul>
           <div class="form-inline mt-2 mt-md-0">
 	    {% if current_user.is_authenticated %}
