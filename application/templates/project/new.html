@@ -35,4 +35,25 @@
       </tr>
 	</table>
 </form>
+<br />
+<br />
+<table>
+	<th>Toiminto</th>
+	<th>Projektin nimi</th>
+	<th>Asiakas</th>
+	<th>Työaika</th>
+	{% for projekti in projektit %}
+	
+	<tr>
+		<td>
+                   <form method="POST" action="{{ url_for('projekti_poista', project_id=projekti.id) }}">
+		   <input type="submit" class="btn btn-warning" value="Poista" />
+		   </form>
+                </td>
+		<td>{{projekti.name}}</td>
+		<td>{{projekti.customer}}</td>
+		<td>{{projekti.vakiotyoaika}} min</td>
+	</tr>
+	{% endfor %}
+</table>
 {% endblock %}
