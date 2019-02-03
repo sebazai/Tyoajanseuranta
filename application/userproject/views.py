@@ -27,7 +27,8 @@ def generate_form():
 def tarkista_paaprojekti_ja_vaihda(accountidparam):
     stmt = text("SELECT * FROM userproject WHERE account_id = :accountid AND paaprojekti = :projekti").params(accountid=accountidparam, projekti=True)
     res = db.engine.execute(stmt)
-    if res != None:
+    row = res.fetchone()
+    if row != None:
         res.close()
         stmt2 = text("UPDATE userproject SET paaprojekti = :false WHERE account_id = :accountid AND paaprojekti = :projekti").params(false = False, accountid=accountidparam, projekti = True)
         result = db.engine.execute(stmt2)
@@ -54,12 +55,14 @@ def userproject_create():
     elif request.form['action'] == "Päivitä":
         stmt = text("SELECT * FROM userproject WHERE account_id = :accountid AND project_id = :projectid").params(accountid = form.users.data, projectid = form.project.data)
         res = db.engine.execute(stmt)
-        if res == None:
+        row = res.fetchone()
+        if row != None:
             res.close()
+            tarkista_paaprojekti_ja_vaihda(form.users.data)
             paivita_kayttaja(form.users.data, form.project.data, form.paaprojekti.data, form.asiakas.data)
         else:
             return render_template("userproject/add.html", form = generate_form(), error = "Liitä käyttäjä ensiksi projektiin.")
-    return redirect(url_for("index"))
+    return redirect(url_for("userproject_form"))
 
 
 def paivita_kayttaja(account_id, projekti_id, paaprojekti, asiakas):
