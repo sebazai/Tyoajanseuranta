@@ -1,5 +1,6 @@
-from application import app, db
-from flask_login import login_required, current_user
+from flask_login import current_user
+from application import app, db, login_required
+
 from flask import render_template, request, redirect, url_for
 
 from sqlalchemy.sql import text
@@ -9,11 +10,10 @@ from application.userproject.models import Userproject
 from application.userproject.forms import UserProjectForm
 
 @app.route("/userproject/add/")
-@login_required
+@login_required(role="ADMIN")
 def userproject_form():
     return render_template("userproject/add.html", form = generate_form())
 
-@login_required
 def generate_form():
     stmt = text("SELECT Projekti.id, Projekti.name FROM Projekti")
     stmt2 = text("SELECT id, name FROM account")
@@ -24,18 +24,17 @@ def generate_form():
     form.users.choices = [(user.id, user.name) for user in resusers]
     return form
 
-@login_required
 def tarkista_paaprojekti_ja_vaihda(accountidparam):
     stmt = text("SELECT * FROM userproject WHERE account_id = :accountid AND paaprojekti = :projekti").params(accountid=accountidparam, projekti=True)
     res = db.engine.execute(stmt)
     if res != None:
         res.close()
-        stmt2 = text("UPDATE userproject SET paaprojekti = 'False' WHERE account_id = :accountid AND paaprojekti = :projekti").params(accountid=accountidparam, projekti = True)
+        stmt2 = text("UPDATE userproject SET paaprojekti = :false WHERE account_id = :accountid AND paaprojekti = :projekti").params(false = False, accountid=accountidparam, projekti = True)
         result = db.engine.execute(stmt2)
 
 
 @app.route("/userproject/linkuser/", methods=["POST"])
-@login_required
+@login_required(role="ADMIN")
 def userproject_create():
     form = UserProjectForm(request.form)
     
