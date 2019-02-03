@@ -60,4 +60,10 @@ INSERT INTO userproject ("onAsiakas", account_id, project_id, unique_id, paaproj
 
 
 
+### Yhteenvetokyselyt
 
+Käyttäjä saa leimausnäkymäänsä kertyneen saldon pääprojektistaan.
+
+```sql
+SELECT SUM(kertyma) FROM Kirjaus WHERE account_id = <kirjautuneen_id> AND userproject_id = <käyttäjän_pääprojekti>;
+```
