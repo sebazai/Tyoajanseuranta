@@ -6,7 +6,8 @@
 		<th>Toiminto</th>
 		<th>Sisäänkirjaus</th>
 		<th>Uloskirjaus</th>
-		<th>Liukuma</th>
+		<th>Kertymä</th>
+		<th>Projekti</th>
 	</tr>
 
 	{% for kirjaus in kirjauslista %}
@@ -25,7 +26,9 @@
 		<td>{{kirjaus.sisaankirjaus}}</td>
 		<td>{{kirjaus.uloskirjaus}}</td>
 		<td>{{kirjaus.kertyma}} min</td>
+		<td>{{projekti}}</td>
 	</tr>
 	{% endfor %}
+	<div>Liukumasaldo: {{saldo}} min</div>
 </table>
 {% endblock %}
