@@ -7,8 +7,9 @@ class User(Base):
     __tablename__ = "account"
 
     name = db.Column(db.String(144), nullable=False)
-    username = db.Column(db.String(144), nullable=False)
+    username = db.Column(db.String(144), unique=True, nullable=False)
     password = db.Column(db.String(144), nullable=False)
+    role = db.Column(db.String(144), nullable=False)
 
     kirjaus = db.relationship("Kirjaus", backref='account', lazy=True)
     def __init__(self, name, username, password):
@@ -22,8 +23,11 @@ class User(Base):
     def is_active(self):
         return True
 
-    def is_anonymouse(self):
+    def is_anonymous(self):
         return False
 
     def is_authenticated(self):
         return True
+
+    def roles(self):
+        return self.role
