@@ -38,22 +38,17 @@ def auth_register():
 @login_required(role="ADMIN")
 def auth_create_user():
     form = RegistrationForm(request.form)
-
     user = User(form.name.data, form.username.data, form.password.data)
     if form.isadmin.data:
         user.role = "ADMIN"
     else:
         user.role = "USER"
     db.session().add(user)
-    #db.session().flush()
-    # lisätään käyttäjä tietokantaan, jotta saadaan ID
-    #db.session().refresh(user)
-
+    
     try:
         db.session().commit()
         #jos lisäys onnistuu, liitetään käyttäjä valittuun projektii
         userproject = Userproject(False)
-        userproject.unique_id = int(str(user.id) + str(form.paaprojekti.data))
         userproject.account_id = user.id
         userproject.project_id = form.paaprojekti.data
         userproject.paaprojekti = True
