@@ -17,3 +17,10 @@ class RegistrationForm(FlaskForm):
 
     class Meta:
         csrf = False
+
+class UpdateForm(FlaskForm):
+    name = StringField("Nimi", [validators.Length(min=2, max=144)])
+    password = PasswordField("Uusi salasana", [validators.Length(min=5, max=144)])
+
+    class Meta:
+        csrf = False
