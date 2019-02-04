@@ -19,7 +19,7 @@ SELECT * FROM Kirjaus WHERE account_id = ? AND uloskirjaus IS NULL;
 
 #### 2. Työajan kirjaaminen
 
-Käyttäjänä voin kirjata työajan
+Käyttäjänä voin kirjata työajan, leimata sisään ja ulos reaaliajassa.
 
 * Käyttäjä voi lisätä työajan "Lisää työaika" linkin kautta.
 ```sql
@@ -40,13 +40,23 @@ WHERE kirjaus.id = <kirjaus_id_lomakkeesta>;
 
 #### 3. Kirjautuminen ja käyttäjähallinta
 
-Käyttäjä voi kirjautua sisään. Sovellus toimii ainoastaan kirjautuneena
+Käyttäjä voi kirjautua sisään. Sovellus toimii ainoastaan kirjautuneena.
 
 * Käyttäjä voi kirjautua sivustolle.
 ```sql
 SELECT * FROM account 
 WHERE account.username = <lomakkeen_käyttäjätunnus> 
 AND account.password = <lomakkeen_salasana>;
+```
+
+* Käyttäjät listataan Hallinnoi käyttäjiä sivulla
+```sql
+SELECT * FROM account
+```
+
+* Käyttäjän nimi ja salasana voidaan päivittää
+```sql
+UPDATE account SET name=<lomakkeesta_uusi_nimi>, password=<lomakkeesta_salasana> WHERE account.id = <lomakkeesta_id>
 ```
 
 * Pääkäyttäjä voi lisätä uuden käyttäjän ja ohjelmisto liittää sille samalla pääprojektin mitä työstää.
@@ -64,19 +74,10 @@ VALUES (<always_false>, <palautettu_arvo_aikaisemmasta_lisayksesta>, <lomake_pro
 
 #### 4. Projektihallinta
 
-* Pääkäyttäjä voi liittää käyttäjän projektiin ja merkitä tämän ensisijaiseksi projektiksi (paaprojekti)
+* Projektit listataan sivulla "Käyttäjäliitokset"
 
 ```sql
-INSERT INTO userproject ("onAsiakas", account_id, project_id, unique_id, paaprojekti) 
-VALUES (<lomakkeesta_boolean>, <lomakkeesta_accountId>, <lomakkeesta_projectId>, 
-<accountId+projectId yhdistettyna>, <lomakkeesta boolean>)
-```
-
-* Pääkäyttäjä voi päivittää käyttäjän ensisijaista projektia (pääprojekti) ja merkitä myös käyttäjän asiakkaaksi.
-
-```sql
-UPDATE userproject SET paaprojekti = <lomakkeesta_boolean>, onAsiakas = <lomakkeesta_boolean> 
-WHERE account_id = <lomake_selectfield> AND project_id = <lomake_selectfield>
+SELECT * FROM projekti
 ```
 
 * Pääkäyttäjä voi poistaa projektin.
@@ -90,6 +91,24 @@ DELETE FROM projekti WHERE projekti.id = <projekti_id_sivulta>
 UPDATE projekti SET date_modified=CURRENT_TIMESTAMP, 
 name=<lomakkeesta_nimi>, customer=<lomakkeesta_asiakas>, vakiotyoaika=<lomakkeesta_aika> 
 WHERE projekti.id = ?
+```
+
+#### 5. Käyttäjäliitokset
+
+
+* Pääkäyttäjä voi liittää käyttäjän projektiin ja merkitä tämän ensisijaiseksi projektiksi (paaprojekti)
+
+```sql
+INSERT INTO userproject ("onAsiakas", account_id, project_id, unique_id, paaprojekti) 
+VALUES (<lomakkeesta_boolean>, <lomakkeesta_accountId>, <lomakkeesta_projectId>, 
+<accountId+projectId yhdistettyna>, <lomakkeesta boolean>)
+```
+
+* Pääkäyttäjä voi päivittää käyttäjän ensisijaista projektia (pääprojekti) ja merkitä myös käyttäjän asiakkaaksi.
+
+```sql
+UPDATE userproject SET paaprojekti = <lomakkeesta_boolean>, onAsiakas = <lomakkeesta_boolean> 
+WHERE account_id = <lomake_selectfield> AND project_id = <lomake_selectfield>
 ```
 
 ## Yhteenvetokyselyt
