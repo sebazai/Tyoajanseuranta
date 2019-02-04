@@ -33,5 +33,25 @@
 		</tr>
 	</table>
 </form>
-
+<br />
+<br />
+<table>
+	<th>Poista</th>
+	<th>Nimi</th>
+	<th>Tunnus</th>
+	<th>Muokkaa</th>
+	{% for kayttaja in kayttajat %}
+	
+	<tr>
+		<td>
+                   <form method="POST" action="{{ url_for('kayttaja_poista', account_id=kayttaja.id) }}">
+		   <input type="submit" class="btn btn-danger" value="Poista" />
+		   </form>
+                </td>
+		<td>{{kayttaja.name}}</td>
+		<td>{{kayttaja.username}}</td>
+		<td><a href="{{ url_for('kayttaja_update', account_id=kayttaja.id) }} "><button class="btn btn-warning">Edit</button></a></td>
+	</tr>
+	{% endfor %}
+</table>
 {% endblock %}
