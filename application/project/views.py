@@ -45,7 +45,7 @@ def project_create():
     form = ProjectForm(request.form)
 
     if not form.validate():
-        return render_template("project/new.html", form = form, error = "Varmista, että työaika on kokonaisluku")
+        return render_template("project/new.html", form = form, error = "Tarkista syötteet", projektit = Projekti.query.all())
 
     project = Projekti(form.name.data, form.customer.data, form.vakiotyoaika.data)
 
