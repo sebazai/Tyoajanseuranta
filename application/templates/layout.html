@@ -24,13 +24,13 @@
 	    	{% endif %}
 		{% if current_user.role == 'ADMIN' %}
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('auth_register') }} ">Lisää käyttäjä</a>
+              <a class="nav-link" href="{{ url_for('auth_register') }} ">Hallinnoi käyttäjiä</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('project_form') }} ">Luo tai poista projekti</a>
+              <a class="nav-link" href="{{ url_for('project_form') }} ">Hallinnoi projekteja</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('userproject_form') }} ">Hallinnoi projekteja</a>
+              <a class="nav-link" href="{{ url_for('userproject_form') }} ">Käyttäjäliitokset</a>
             </li>
 	    {% endif %}
           </ul>
