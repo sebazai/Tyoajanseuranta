@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+  
+{% block body %}
+<div>Muokataan projektia {{ kayttaja.name }}</div><br>
+<form method="POST" action="{{ url_for('kayttaja_update', account_id = kayttaja.id) }}">
+  <table>
+    <tr>
+      <td style="padding: 0.5em;">
+        {{ form.name.label }}
+      </td>
+      <td>
+        {{ form.name }}
+      </td>
+      <td>
+        <ul>
+          {% for error in form.name.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </td>
+    </tr>
+    <tr>
+        <td style="padding: 0.5em;">
+		Tunnus
+        </td>
+        <td>
+		{{kayttaja.username}}
+        </td>
+      </tr>
+
+    <tr>
+        <td style="padding: 0.5em;">
+          {{ form.password.label }}
+        </td>
+        <td>
+          {{ form.password }}
+        </td>
+        <td>
+          <ul>
+            {% for error in form.password.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </td>
+      </tr>
+    <tr>
+      <td colspan="2">
+        <input class="btn btn-success" type="submit" value="Update user"/>
+      </td>
+    </tr>
+  </table>
+</form>
+{% endblock %}
