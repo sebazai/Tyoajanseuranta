@@ -6,7 +6,7 @@ Tälle sivulle on koottu käyttäjätarinoita projektiin liittyen. Käyttäjäta
 
 Käyttäjänä voin nähdä kaikki merkatut työaikani "Merkatut työajat" linkin kautta.
 
-* Käyttäjä voi tarkastella kirjaamiaan työaikoja.
+* Käyttäjä voi tarkastella kirjaamiaan työaikojaan pääprojektistaan.
 
 ```sql
 SELECT * FROM kirjaus WHERE account_id = <kirjautunut_id> ORDER BY kirjaus.sisaankirjaus DESC;
@@ -21,24 +21,24 @@ SELECT * FROM Kirjaus WHERE account_id = ? AND uloskirjaus IS NULL;
 
 Käyttäjänä voin kirjata työajan
 
-* Käyttäjä voi lisätä työajan.
+* Käyttäjä voi lisätä työajan "Lisää työaika" linkin kautta.
 ```sql
 INSERT INTO kirjaus (sisaankirjaus, uloskirjaus, "tehdytMinuutit", kertyma, account_id) 
 VALUES (<sisaankirjaus_aika>, <uloskirjaus_aika>, <tehdyt_minuutit>, <kertyma>, <kirjautuneen_käyttäjän_id>);
 ```
-* Käyttäjä voi leimata sisään kirjautumisen jälkeen.
+* Käyttäjä voi leimata sisään kirjautumisen jälkeen tai painamalla "Työajanseuranta" vasemmassa yläkulmassa.
 ```sql
 INSERT INTO kirjaus (sisaankirjaus, uloskirjaus, "tehdytMinuutit", kertyma, account_id) 
 VALUES (<sisaankirjaus_aika_nyt>, <NULL>, <NULL>, <NULL>, <kirjautuneen_käyttäjän_id>);
 ```
-* Käyttäjä voi leimata ulos kirjautumisen jälkeen, mikäli on leimannut sisään ja kyseiselle tapahtumalle ei ole merkattu uloskirjausta.
+* Käyttäjä voi leimata ulos kirjautumisen jälkeen, mikäli on leimannut sisään ja kyseiselle tapahtumalle ei ole merkattu uloskirjausaikaa.
 ```sql
 UPDATE kirjaus 
 SET date_modified=CURRENT_TIMESTAMP, uloskirjaus=<uloskirjaus_aika_nyt> 
 WHERE kirjaus.id = <kirjaus_id_lomakkeesta>;
 ```
 
-#### 3. Kirjautuminen
+#### 3. Kirjautuminen ja käyttäjähallinta
 
 Käyttäjä voi kirjautua sisään. Sovellus toimii ainoastaan kirjautuneena
 
@@ -49,21 +49,55 @@ WHERE account.username = <lomakkeen_käyttäjätunnus>
 AND account.password = <lomakkeen_salasana>;
 ```
 
-#### 4. Projektihallinta
-
-Pääkäyttäjä voi liittää käyttäjän projektiin ja merkitä tämän ensisijaiseksi projektiksi (paaprojekti)
+* Pääkäyttäjä voi lisätä uuden käyttäjän ja ohjelmisto liittää sille samalla pääprojektin mitä työstää.
+account_id palautuu tietokannasta userproject lisäystä varten, mikäli se läpäisee validoinnin.
 
 ```sql
-INSERT INTO userproject ("onAsiakas", account_id, project_id, unique_id, paaprojekti) VALUES (<lomakkeesta_boolean>, <lomakkeesta_accountId>, <lomakkeesta_projectId>, <accountId+projectId yhdistettyna>, <lomakkeesta boolean>)
+INSERT INTO account (name, username, password, role) 
+VALUES (<lomakkeesta_nimi>, <lomakkeesta_tunnus>, <lomake_salasana>, <lomake_boolean>)
+
+INSERT INTO userproject ("onAsiakas", account_id, project_id, paaprojekti) 
+VALUES (<always_false>, <palautettu_arvo_aikaisemmasta_lisayksesta>, <lomake_projekti>, <always_true>)
 ```
 
 
 
+#### 4. Projektihallinta
 
-### Yhteenvetokyselyt
+* Pääkäyttäjä voi liittää käyttäjän projektiin ja merkitä tämän ensisijaiseksi projektiksi (paaprojekti)
+
+```sql
+INSERT INTO userproject ("onAsiakas", account_id, project_id, unique_id, paaprojekti) 
+VALUES (<lomakkeesta_boolean>, <lomakkeesta_accountId>, <lomakkeesta_projectId>, 
+<accountId+projectId yhdistettyna>, <lomakkeesta boolean>)
+```
+
+* Pääkäyttäjä voi päivittää käyttäjän ensisijaista projektia (pääprojekti) ja merkitä myös käyttäjän asiakkaaksi.
+
+```sql
+UPDATE userproject SET paaprojekti = <lomakkeesta_boolean>, onAsiakas = <lomakkeesta_boolean> 
+WHERE account_id = <lomake_selectfield> AND project_id = <lomake_selectfield>
+```
+
+* Pääkäyttäjä voi poistaa projektin.
+
+```sql
+DELETE FROM projekti WHERE projekti.id = <projekti_id_sivulta>
+```
+
+* Pääkäyttäjä voi muokata projektin tietoja.
+```sql
+UPDATE projekti SET date_modified=CURRENT_TIMESTAMP, 
+name=<lomakkeesta_nimi>, customer=<lomakkeesta_asiakas>, vakiotyoaika=<lomakkeesta_aika> 
+WHERE projekti.id = ?
+```
+
+## Yhteenvetokyselyt
 
 Käyttäjä saa leimausnäkymäänsä kertyneen saldon pääprojektistaan.
 
 ```sql
-SELECT SUM(kertyma) FROM Kirjaus WHERE account_id = <kirjautuneen_id> AND userproject_id = <käyttäjän_pääprojekti>;
+SELECT SUM(kertyma) FROM Kirjaus 
+WHERE account_id = <kirjautuneen_id> 
+AND userproject_id = <käyttäjän_pääprojekti>;
 ```
