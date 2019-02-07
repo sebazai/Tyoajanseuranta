@@ -54,9 +54,10 @@ AND account.password = <lomakkeen_salasana>;
 SELECT * FROM account
 ```
 
-* Käyttäjän nimi ja salasana voidaan päivittää
+* Pääkäyttäjä voi päivittää käyttäjän nimen ja salasana voidaan vaihtaa.
 ```sql
-UPDATE account SET name=<lomakkeesta_uusi_nimi>, password=<lomakkeesta_salasana> WHERE account.id = <lomakkeesta_id>
+UPDATE account SET name=<lomakkeesta_uusi_nimi>, password=<lomakkeesta_salasana> 
+WHERE account.id = <lomakkeesta_id>
 ```
 
 * Pääkäyttäjä voi lisätä uuden käyttäjän ja ohjelmisto liittää sille samalla pääprojektin mitä työstää.
@@ -93,8 +94,11 @@ DELETE FROM Userproject WHERE Userproject.projekti_id = <poistettava_id>
 DELETE FROM Projekti WHERE projekti.id = <poistettava_id>
 ```
 
+* Pääkäyttäjä voi lisätä uuden projektin.
 ```sql
-DELETE FROM projekti WHERE projekti.id = <projekti_id_sivulta>
+INSERT INTO projekti (name, customer, vakiotyoaika) 
+VALUES (<lomakkeesta_nimi>, <lomakkeesta_asiakas>, <lomakkeesta_minuutit>)
+
 ```
 
 * Pääkäyttäjä voi muokata projektin tietoja.
