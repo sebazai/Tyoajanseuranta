@@ -66,6 +66,6 @@ def userproject_create():
 
 
 def paivita_kayttaja(account_id, projekti_id, paaprojekti, asiakas):
-    stmt = text("UPDATE userproject SET paaprojekti = :paaprojekti, onAsiakas = :onasiakas WHERE account_id = :tili AND project_id = :projekti").params(paaprojekti = paaprojekti, onasiakas = asiakas, tili = account_id, projekti = projekti_id)
+    stmt = text("UPDATE userproject SET paaprojekti = :paaprojekti, onasiakas = :onasiakas WHERE account_id = :tili AND project_id = :projekti").params(paaprojekti = paaprojekti, onasiakas = asiakas, tili = account_id, projekti = projekti_id)
     db.engine.execute(stmt)
 
