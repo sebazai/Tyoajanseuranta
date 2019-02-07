@@ -2,8 +2,12 @@ from application import app, db, login_required
 from flask_login import current_user
 from flask import render_template, request, redirect, url_for
 
+from sqlalchemy.sql import text
+
 from application.project.models import Projekti
 from application.project.forms import ProjectForm
+from application.kirjaus.models import Kirjaus
+from application.userproject.models import Userproject
 
 @app.route("/project/new/")
 @login_required(role="ADMIN")
@@ -15,6 +19,10 @@ def project_form():
 @app.route("/project/delete/<project_id>", methods=["POST"])
 @login_required(role="ADMIN")
 def projekti_poista(project_id):
+    stmt = text("DELETE FROM Kirjaus WHERE userproject_id = (SELECT id FROM userproject WHERE project_id = :projectid)").params(projectid = project_id)
+    res = db.session.execute(stmt)
+    Userproject.query.filter_by(project_id=project_id).delete()
+    db.session.commit()
     Projekti.query.filter_by(id = project_id).delete()
     db.session().commit()
     return redirect(url_for("project_form"))
