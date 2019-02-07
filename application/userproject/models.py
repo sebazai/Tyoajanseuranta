@@ -14,5 +14,5 @@ class Userproject(Base):
     
     
     def __init__(self, asiakas):
-        self.onAsiakas = asiakas
+        self.onasiakas = asiakas
 
