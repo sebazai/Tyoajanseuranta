@@ -6,6 +6,7 @@ from application.kirjaus.models import Kirjaus
 from application.kirjaus.forms import KirjausForm
 from application.userproject.models import Userproject
 from application.project.models import Projekti
+from application.userproject.views import generate_form
 
 from datetime import datetime, time, date
 from sqlalchemy import desc
@@ -15,6 +16,8 @@ from sqlalchemy.sql import text, func
 @login_required
 def kirjaus_index():
     userprojekti = Userproject.query.filter(Userproject.account_id == current_user.id, Userproject.paaprojekti == True).first()
+    if userprojekti is None:
+        return render_template("userproject/add.html", form = generate_form(), error = "Liitä projektiin, ennen kuin voit kirjata työaikoja")
     projekti = Projekti.query.filter(Projekti.id == userprojekti.project_id).first()
     kirjauslista = Kirjaus.query.filter(Kirjaus.account_id == current_user.id, Kirjaus.userproject_id == userprojekti.id).order_by(desc(Kirjaus.sisaankirjaus)).all()
     saldo = Kirjaus.get_saldo(userprojekti.id)
@@ -55,6 +58,8 @@ def kirjaus_sisaan():
     kirjaus_sisaan = Kirjaus(datetime(now.year, now.month, now.day, now.hour, now.minute))
     kirjaus_sisaan.account_id = current_user.id
     kirjaus_sisaan.userproject_id = hae_ensisijainen_projekti()
+    if kirjaus_sisaan.userproject_id is None:
+        return render_template("userproject/add.html", form = generate_form(), error = "Liitä projektiin, ennen kuin voit kirjata työaikoja")
     db.session().add(kirjaus_sisaan)
     db.session().commit()
 
@@ -79,6 +84,8 @@ def kirjaus_create():
     kirjaus.tehdytMinuutit = minuutit
     kirjaus.account_id = current_user.id
     projekti = hae_ensisijainen_projekti()
+    if projekti is None:
+        return render_template("userproject/add.html", form = generate_form(), error = "Liitä projektiin, ennen kuin voit kirjata työaikoja")
     kirjaus.kertyma = laske_kertyma(minuutit, projekti)
     kirjaus.userproject_id = projekti
 
@@ -92,6 +99,8 @@ def hae_ensisijainen_projekti():
     stmt = text("SELECT * FROM userproject WHERE account_id = :accountid AND paaprojekti = :true").params(accountid = current_user.id, true = True)
     res = db.session().execute(stmt)
     row = res.first()
+    if row is None:
+        return None
     projekti = row['id']
     return projekti
 
