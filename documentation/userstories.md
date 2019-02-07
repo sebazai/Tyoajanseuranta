@@ -70,6 +70,12 @@ INSERT INTO userproject ("onAsiakas", account_id, project_id, paaprojekti)
 VALUES (<always_false>, <palautettu_arvo_aikaisemmasta_lisayksesta>, <lomake_projekti>, <always_true>)
 ```
 
+* Pääkäyttäjä voi poistaa käyttäjän, tämä poistaa myös käyttäjäliitokset ja kaikki kirjaukset.
+```sql
+DELETE FROM kirjaus WHERE Kirjaus.account_id = <poistettavan_id>
+DELETE FROM userproject WHERE Userproject.account_id = <poistettavan_id>
+DELETE FROM account WHERE Account.id = <poistettavan_id>
+```
 
 
 #### 4. Projektihallinta
@@ -80,7 +86,12 @@ VALUES (<always_false>, <palautettu_arvo_aikaisemmasta_lisayksesta>, <lomake_pro
 SELECT * FROM projekti
 ```
 
-* Pääkäyttäjä voi poistaa projektin.
+* Pääkäyttäjä voi poistaa projektin. Tämä poistaa myös käyttäjäliitokset projekteihin ja kirjaukset jotka tehty projektiin.
+```sql
+DELETE FROM Kirjaus WHERE userproject_id = (SELECT id FROM userproject WHERE project_id = <poistettava_id>)
+DELETE FROM Userproject WHERE Userproject.projekti_id = <poistettava_id>
+DELETE FROM Projekti WHERE projekti.id = <poistettava_id>
+```
 
 ```sql
 DELETE FROM projekti WHERE projekti.id = <projekti_id_sivulta>
