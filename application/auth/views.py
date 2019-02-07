@@ -7,6 +7,7 @@ from sqlalchemy.sql import text
 from application import app, db, login_required
 from application.auth.models import User
 from application.userproject.models import Userproject
+from application.kirjaus.models import Kirjaus
 from application.auth.forms import LoginForm, RegistrationForm, UpdateForm
 
 
@@ -90,6 +91,9 @@ def kayttaja_update(account_id):
 @app.route("/auth/delete/<account_id>", methods = ["POST"])
 @login_required(role="ADMIN")
 def kayttaja_poista(account_id):
+    Kirjaus.query.filter_by(account_id = account_id).delete()
+    Userproject.query.filter_by(account_id = account_id).delete()
+    db.session.commit()
     User.query.filter_by(id = account_id).delete()
     db.session.commit()
     return redirect(url_for("auth_register"))
