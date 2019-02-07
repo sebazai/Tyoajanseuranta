@@ -7,7 +7,7 @@ class Userproject(Base):
     
     
     __table_args__ = (UniqueConstraint('account_id', 'project_id'),)
-    onAsiakas = db.Column(db.Boolean, server_default='False',  nullable=False)
+    onasiakas = db.Column(db.Boolean, server_default='False',  nullable=False)
     account_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable=False)
     project_id = db.Column(db.Integer, db.ForeignKey('projekti.id'), nullable=False)
     paaprojekti = db.Column(db.Boolean, server_default='False', nullable=False)
