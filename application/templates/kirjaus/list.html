@@ -30,5 +30,16 @@
 	</tr>
 	{% endfor %}
 	<div>Liukumasaldo: {{saldo}} min</div>
+
+	{%if asiakas is defined and asiakas %}
+	<p>Yhteenveto tehdyistä tunneista projektissa: {{ asiakas[0].projekti }}</p>
+	<ul>
+		{% for user in asiakas %}
+		<li>
+			{{user.name}}: {{user.tunnit}}
+		</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
 </table>
 {% endblock %}
