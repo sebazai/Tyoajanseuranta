@@ -21,7 +21,11 @@ def kirjaus_index():
     projekti = Projekti.query.filter(Projekti.id == userprojekti.project_id).first()
     kirjauslista = Kirjaus.query.filter(Kirjaus.account_id == current_user.id, Kirjaus.userproject_id == userprojekti.id).order_by(desc(Kirjaus.sisaankirjaus)).all()
     saldo = Kirjaus.get_saldo(userprojekti.id)
-    return render_template("kirjaus/list.html", kirjauslista = kirjauslista, projekti = projekti.name, saldo = saldo)
+    if userprojekti.onasiakas is True:
+        asiakas = Kirjaus.asiakas_yhteenveto(userprojekti.project_id)
+    else:
+        asiakas = None
+    return render_template("kirjaus/list.html", asiakas = asiakas, kirjauslista = kirjauslista, projekti = projekti.name, saldo = saldo)
 
 @app.route("/kirjaus/new/")
 @login_required
