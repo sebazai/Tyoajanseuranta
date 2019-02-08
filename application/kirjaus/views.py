@@ -41,7 +41,7 @@ def kirjaus_uloskirjaus(kirjaus_id):
     muokattuDatetime = datetime(now.year, now.month, now.day, now.hour, now.minute)
     sisaankirjaus = kirjaus.sisaankirjaus
     minuutit = (int((muokattuDatetime - sisaankirjaus).total_seconds())/60)
-    kirjaus.tehdytMinuutit = minuutit
+    kirjaus.tehdytminuutit = minuutit
     kirjaus.uloskirjaus = muokattuDatetime;
     kirjaus.kertyma = laske_kertyma(minuutit, kirjaus.userproject_id)
     db.session().commit()
@@ -85,7 +85,7 @@ def kirjaus_create():
             
     kirjaus = Kirjaus(sisaan)
     kirjaus.uloskirjaus = ulos
-    kirjaus.tehdytMinuutit = minuutit
+    kirjaus.tehdytminuutit = minuutit
     kirjaus.account_id = current_user.id
     projekti = hae_ensisijainen_projekti()
     if projekti is None:
