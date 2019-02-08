@@ -48,5 +48,6 @@ class Kirjaus(Base):
         print(response)
         return response
 
+    @staticmethod
     def tunneiksi(minuutit):
         return minuutit/60
