@@ -40,7 +40,7 @@ class Kirjaus(Base):
 
     @staticmethod
     def asiakas_yhteenveto(projekti):
-        stmt = text("SELECT SUM(tehdytMinuutit), Account.name, Projekti.name AS projektinimi FROM Kirjaus INNER JOIN Account ON Account.id = Kirjaus.account_id INNER JOIN Userproject ON Userproject.project_id = :projekti AND Userproject.account_id = Kirjaus.account_id AND Kirjaus.userproject_id = Userproject.id INNER JOIN Projekti ON Projekti.id = :projekti GROUP BY Account.name ORDER BY Account.name ASC").params(projekti = projekti)
+        stmt = text("SELECT SUM(Kirjaus.tehdytMinuutit), Account.name, Projekti.name AS projektinimi FROM Kirjaus INNER JOIN Account ON Account.id = Kirjaus.account_id INNER JOIN Userproject ON Userproject.project_id = :projekti AND Userproject.account_id = Kirjaus.account_id AND Kirjaus.userproject_id = Userproject.id INNER JOIN Projekti ON Projekti.id = :projekti GROUP BY Account.name ORDER BY Account.name ASC").params(projekti = projekti)
         res = db.engine.execute(stmt)
         response = []
         for row in res:
