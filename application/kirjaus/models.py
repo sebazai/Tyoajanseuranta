@@ -44,6 +44,9 @@ class Kirjaus(Base):
         res = db.engine.execute(stmt)
         response = []
         for row in res:
-            response.append({"tunnit":(row[0]/60), "name":row[1], "projekti":row[2]})
+            response.append({"tunnit":tunneiksi(row[0]), "name":row[1], "projekti":row[2]})
         print(response)
         return response
+
+    def tunneiksi(minuutit):
+        return minuutit/60
