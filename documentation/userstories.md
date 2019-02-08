@@ -147,5 +147,5 @@ INNER JOIN Userproject ON Userproject.project_id = :projekti
 AND Userproject.account_id = Kirjaus.account_id 
 AND Kirjaus.userproject_id = Userproject.id 
 INNER JOIN Projekti ON Projekti.id = :projekti 
-GROUP BY Account.name ORDER BY Account.name ASC;
+GROUP BY Account.name, Projekti.name ORDER BY Account.name ASC;
 ```
