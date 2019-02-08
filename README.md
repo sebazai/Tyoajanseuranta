@@ -1,15 +1,15 @@
 # Työajanseuranta
 Työajanseurantasovellus
 
-Työajanseurantajärjestelmää on tarkoitus käyttää asiakaskohtaiseen tai projektin työajanseurantaan. Asiakas saa järjestelmästä yhteenvetoja käytetystä työajasta kuukausittain, henkilöittäin ja tehtävälajeittain. Kukin asiakkuuden parissa työskentelevä henkilö kirjaa järjestelmään tekemänsä työtunnit, työlajin ja mahdollisen selityksen. Työntekijä saa nähtäväkseen tekemänsä kirjaukset. Hän saa esiin myös itseensä liittyvät yhteenvetoraportit. Asiakas ja pääkäyttäjä/esimies saa halutessaan käyttöönsä 
+Työajanseurantajärjestelmää on tarkoitus käyttää asiakaskohtaiseen tai projektin työajanseurantaan. Asiakas saa järjestelmästä yhteenvetoja käytetystä työajasta. Kukin asiakkuuden parissa työskentelevä henkilö kirjaa järjestelmään tekemänsä työtunnit. Työntekijä saa nähtäväkseen tekemänsä kirjaukset. Hän saa esiin myös itseensä liittyvät yhteenvetoraportit. Asiakas ja pääkäyttäjä/esimies saa halutessaan käyttöönsä 
 myös tiedot kunkin työntekijään yksityiskohtaisista kirjauksista.
 
 Toimintoja:
 * Kirjautuminen
 * Leimaus sisään ja ulos
 * Työaikakirjauksen teko
-* Asiakkuuden/projektin perustaminen
-* Henkilön liittäminen/poistaminen asiakkuudesta/projektista
+* Asiakkuuden/projektin perustaminen/poistaminen
+* Henkilön liittäminen asiakkuudesta/projektista
 * Asiakkaan raportit
 * Käyttäjän työraportti
 * Pääkäyttäjän/esimiehen raportit 
@@ -17,6 +17,7 @@ Toimintoja:
 ## Linkkejä ja tietoa
 
 Admin tunnus: admin/adminpw
+Testi tunnus: testi/testipw
 
 [Heroku](https://tsoha-tyoajanseuranta.herokuapp.com/)
 
@@ -25,3 +26,5 @@ Admin tunnus: admin/adminpw
 [Tietokantakaavio](https://github.com/sebazai/tsoha-tyoajanseuranta/blob/master/documentation/tietokantakaavio.png)
 
 [Käyttäjätarinoita](https://github.com/sebazai/tsoha-tyoajanseuranta/blob/master/documentation/userstories.md)
+
+[Käyttöohjeet](https://github.com/sebazai/tsoha-tyoajanseuranta/blob/master/documentation/kayttoohje.md)
