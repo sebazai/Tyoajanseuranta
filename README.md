@@ -18,6 +18,7 @@ Toimintoja:
 
 Admin tunnus: admin/adminpw
 Testi tunnus: testi/testipw
+Asiakas tunnus: asiakas/asiakaspw
 
 [Heroku](https://tsoha-tyoajanseuranta.herokuapp.com/)
 
