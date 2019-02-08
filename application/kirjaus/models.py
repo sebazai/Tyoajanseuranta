@@ -11,7 +11,7 @@ class Kirjaus(Base):
     
     sisaankirjaus = db.Column(db.DateTime, default=db.func.current_timestamp())
     uloskirjaus = db.Column(db.DateTime, nullable=True)
-    tehdytMinuutit = db.Column(db.Integer, nullable=True)
+    tehdytminuutit = db.Column(db.Integer, nullable=True)
     kertyma = db.Column(db.Integer, nullable=True)
 
     account_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable=False)
