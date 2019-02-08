@@ -2,6 +2,8 @@
 
 Tälle sivulle on koottu käyttäjätarinoita projektiin liittyen. Käyttäjätarinoiden alle on kirjattu ehtoja, joiden kautta nämä katsotaan toteutuneeksi. Jokaisen käyttäjätarinan kohdalla on myös avattu SQL-lauseet ja tarvittaessa täydennetty pseudokoodilla.
 
+Jokaisessa tietokannassa on myös date_created ja date_modified sekä id, näitä ei ole käyttäjätarinoissa merkitty, ellei erikseen mainittu.
+
 #### 1. Oman työajan selaaminen
 
 Käyttäjänä voin nähdä kaikki merkatut työaikani "Merkatut työajat" linkin kautta.
@@ -134,4 +136,16 @@ Käyttäjä saa leimausnäkymäänsä kertyneen saldon pääprojektistaan.
 SELECT SUM(kertyma) FROM Kirjaus 
 WHERE account_id = <kirjautuneen_id> 
 AND userproject_id = <käyttäjän_pääprojekti>;
+```
+
+Asiakas saa Merkatut työajat näkymässä yhteenvedon tehdyistä tunneista. (tehdytMinuutit/60)
+
+```sql
+SELECT SUM(tehdytMinuutit), Account.name, Projekti.name AS projektinimi FROM Kirjaus 
+INNER JOIN Account ON Account.id = Kirjaus.account_id 
+INNER JOIN Userproject ON Userproject.project_id = :projekti 
+AND Userproject.account_id = Kirjaus.account_id 
+AND Kirjaus.userproject_id = Userproject.id 
+INNER JOIN Projekti ON Projekti.id = :projekti 
+GROUP BY Account.name ORDER BY Account.name ASC;
 ```
