@@ -89,6 +89,6 @@ def paivita_kayttaja(account_id, projekti_id, paaprojekti, asiakas):
     db.engine.execute(stmt)
 
 def hae_kirjautuneen_kayttajat_nakyma():
-    stmt = text("SELECT Account.id, Account.name, Account.username, Projekti.name AS projekti FROM account INNER JOIN Userproject ON Userproject.account_id = Account.id AND Userproject.paaprojekti = :projekti INNER JOIN Projekti ON Projekti.id = Userproject.project_id WHERE Account.id = :accountid").params(accountid = current_user.id, projekti = True)
+    stmt = text("SELECT Account.id, Account.name, Account.username, Projekti.name AS projekti, Userproject.onasiakas FROM account INNER JOIN Userproject ON Userproject.account_id = Account.id AND Userproject.paaprojekti = :projekti INNER JOIN Projekti ON Projekti.id = Userproject.project_id WHERE Account.id = :accountid").params(accountid = current_user.id, projekti = True)
     res = db.session().execute(stmt)
     return res
