@@ -11,13 +11,6 @@ from application.kirjaus.models import Kirjaus
 from application.auth.forms import LoginForm, RegistrationForm, UpdateForm
 
 
-def generate_reg_form():
-    form = RegistrationForm()
-    stmt = text("SELECT Projekti.id, Projekti.name FROM Projekti")
-    res = db.engine.execute(stmt)
-    form.paaprojekti.choices = [(project.id, project.name) for project in res]
-    return form
-
 @app.route("/auth/login", methods = ["GET", "POST"])
 def auth_login():
     if request.method == "GET":
@@ -41,12 +34,14 @@ def auth_logout():
 @app.route("/auth/register")
 @login_required(role="ADMIN")
 def auth_register():
-    return render_template("auth/registration.html", form = generate_reg_form(), kayttajat = User.query.all())
+    return render_template("auth/registration.html", form = RegistrationForm(), kayttajat = User.query.all())
 
 @app.route("/auth/createuser", methods=["POST"])
 @login_required(role="ADMIN")
 def auth_create_user():
     form = RegistrationForm(request.form)
+    if not form.validate():
+        return render_template("auth/registration.html", form = form, kayttajat = User.query.all(), error = "Tarkista syötteet!")
     user = User(form.name.data, form.username.data, form.password.data)
     if form.isadmin.data:
         user.role = "ADMIN"
@@ -65,7 +60,7 @@ def auth_create_user():
         db.session().commit()
     except IntegrityError:
         db.session().rollback()
-        return render_template("auth/registration.html", form = generate_reg_form(), error = "Käyttäjätunnus varattu, valitse toinen käyttäjätunnus")
+        return render_template("auth/registration.html", form = form, error = "Käyttäjätunnus varattu, valitse toinen käyttäjätunnus", kayttajat = User.query.all())
     return redirect(url_for("index"))
 
 @app.route("/auth/update/<account_id>", methods = ["GET", "POST"])
@@ -82,7 +77,8 @@ def kayttaja_update(account_id):
         return render_template("auth/update.html", form = form, kayttaja = kayttaja)
 
     kayttaja.name = form.name.data
-    kayttaja.password = form.password.data
+    if form.password.data:
+        kayttaja.password = form.password.data
 
     db.session().commit()
     return redirect(url_for('auth_register'))
