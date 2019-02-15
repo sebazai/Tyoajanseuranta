@@ -16,17 +16,21 @@
 	      <td> {{ form.users.label }} </td>
 	      <td> {{ form.users }} </td>
 	</tr>
+	{% if current_user.role == "ADMIN" %}
 	<tr>
 		<td> {{ form.asiakas.label }} </td>
 		<td> {{ form.asiakas }} </td>
 	</tr>
+	{% endif %}
       <tr>
 	<tr>
 		<td> {{ form.paaprojekti.label }} </td>
 		<td> {{ form.paaprojekti }} </td>
 	</tr>
 	<td colspan="2">
+	{% if current_user.role == "ADMIN" %}
 	  <input type="submit" name="action" value="Liitä" />
+	{% endif %}
 	  <input type="submit" name="action" value="Päivitä" />
 	</td>
       </tr>
