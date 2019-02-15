@@ -6,13 +6,14 @@ from flask import render_template, request, redirect, url_for
 from sqlalchemy.sql import text
 from sqlalchemy.exc import IntegrityError
 
+from application.auth.views import get_users_w_project
 from application.userproject.models import Userproject
 from application.userproject.forms import UserProjectForm
 
 @app.route("/userproject/add/")
 @login_required(role="ADMIN")
 def userproject_form():
-    return render_template("userproject/add.html", form = generate_form())
+    return render_template("userproject/add.html", form = generate_form(), kayttajat = get_users_w_project())
 
 def generate_form():
     stmt = text("SELECT Projekti.id, Projekti.name FROM Projekti")
@@ -51,7 +52,7 @@ def userproject_create():
             db.session().commit()
         except IntegrityError:
             db.session.rollback()
-            return render_template("userproject/add.html", form = generate_form(), error = "Käyttäjä on jo liitetty projektiin")
+            return render_template("userproject/add.html", form = generate_form(), error = "Käyttäjä on jo liitetty projektiin", kayttajat = get_users_w_project())
     elif request.form['action'] == "Päivitä":
         stmt = text("SELECT * FROM userproject WHERE account_id = :accountid AND project_id = :projectid").params(accountid = form.users.data, projectid = form.project.data)
         res = db.engine.execute(stmt)
@@ -61,8 +62,8 @@ def userproject_create():
             tarkista_paaprojekti_ja_vaihda(form.users.data)
             paivita_kayttaja(form.users.data, form.project.data, form.paaprojekti.data, form.asiakas.data)
         else:
-            return render_template("userproject/add.html", form = generate_form(), error = "Liitä käyttäjä ensiksi projektiin.")
-    return render_template("userproject/add.html", form = generate_form(), error = 'Käyttäjä liitetty projektiin onnistuneesti!')
+            return render_template("userproject/add.html", form = generate_form(), error = "Liitä käyttäjä ensiksi projektiin.", kayttajat=get_users_w_project())
+    return render_template("userproject/add.html", form = generate_form(), error = 'Käyttäjä liitetty projektiin onnistuneesti!', kayttajat=get_users_w_project())
 
 
 def paivita_kayttaja(account_id, projekti_id, paaprojekti, asiakas):
