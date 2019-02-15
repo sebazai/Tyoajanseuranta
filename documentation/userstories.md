@@ -26,7 +26,7 @@ Käyttäjänä voin kirjata työajan, leimata sisään ja ulos reaaliajassa.
 * Käyttäjä voi lisätä työajan "Lisää työaika" linkin kautta.
 ```sql
 INSERT INTO kirjaus (sisaankirjaus, uloskirjaus, "tehdytMinuutit", kertyma, account_id) 
-VALUES (<sisaankirjaus_aika>, <uloskirjaus_aika>, <tehdyt_minuutit>, <kertyma>, <kirjautuneen_käyttäjän_id>);
+VALUES (<sisaankirjaus_aika>, <uloskirjaus_aika>, <tehdyt_minuutit>, <kertyma>, <current_user.id>)
 ```
 * Käyttäjä voi leimata sisään kirjautumisen jälkeen tai painamalla "Työajanseuranta" vasemmassa yläkulmassa.
 ```sql
@@ -130,15 +130,21 @@ WHERE account_id = <lomake_selectfield> AND project_id = <lomake_selectfield>
 
 Kirjautunut käyttäjä voi muokata omia asetuksia oikeasta yläkulmasta "Asetukset" linkin takaa.
 
-Käyttäjä näkee projektit mihin hänet on liitetty ja näkee onko projektin asiakas mikäli käyttäjä on merkittynä asiakkaaksi projektiin.
+* Käyttäjä näkee projektit mihin hänet on liitetty ja näkee onko projektin asiakas mikäli käyttäjä on merkittynä asiakkaaksi projektiin.
 ```sql
-SELECT Account.id, Account.name, Account.username, Projekti.name AS projekti, Userproject.onasiakas, Userproject.paaprojekti FROM account INNER JOIN Userproject ON Userproject.account_id = Account.id INNER JOIN Projekti ON Projekti.id = Userproject.project_id WHERE Account.id = <current_user.id>
+SELECT Account.id, Account.name, Account.username, Projekti.name AS projekti, 
+Userproject.onasiakas, Userproject.paaprojekti FROM account 
+INNER JOIN Userproject ON Userproject.account_id = Account.id 
+INNER JOIN Projekti ON Projekti.id = Userproject.project_id 
+WHERE Account.id = <current_user.id>
 ```
 
 Käyttäjä voi muuttaa työstettävää projektia, jolloin vanhasta projektista muutetaan "paaprojekti" boolean false ja uusi projekti true jonka käyttäjä on valinnut. Tämä ei vaihda ASIAKAS statusta.
 ```sql
 UPDATE userproject SET paaprojekti = False WHERE account_id = <current_user.id> AND paaprojekti = True
-UPDATE userproject SET paaprojekti = True WHERE account_id = <current_user.id> AND project_id = <lomakkeesta>
+
+UPDATE userproject SET paaprojekti = True 
+WHERE account_id = <current_user.id> AND project_id = <lomakkeesta>
 ```
 
 ## Yhteenvetokyselyt
