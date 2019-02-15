@@ -42,21 +42,24 @@
 	<th scope="col">Nimi</th>
 	<th scope="col">Tunnus</th>
 	<th scope="col">Projekti</th>
+	<th scope="col">Pääprojekti</th>
 	{% if current_user.role == "ADMIN" %}
 	<th scope="col">On asiakas</th>
 	{% endif %}
+	
 	{% for kayttaja in kayttajat %}
 	
 	<tr>
 		<td>{{kayttaja.name}}</td>
 		<td>{{kayttaja.username}}</td>
 		<td>{{kayttaja.projekti}}</td>
+		<td>{% if kayttaja.paaprojekti == 1 %}Kyllä{% else %}Ei{% endif %}</td>
 		{%if current_user.role == "ADMIN" %}
-		<td>{{kayttaja.onasiakas}}</td>
+		<td>{% if kayttaja.onasiakas == 1 %}Kyllä{% else %}Ei{% endif %}</td>
 		{% endif %}
 	</tr>
 
-	{% if kayttaja.onasiakas == 1 %}
+	{% if current_user.role != "ADMIN" and kayttaja.onasiakas == 1 %}
 		<div>Olet merkittynä asiakkaaksi projektiin: {{kayttaja.projekti}}</div>
 	{% endif %}
 	{% endfor %}
