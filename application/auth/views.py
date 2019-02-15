@@ -35,8 +35,7 @@ def auth_logout():
 @app.route("/auth/register")
 @login_required(role="ADMIN")
 def auth_register():
-    print(get_users_w_project())
-    return render_template("auth/registration.html", form = RegistrationForm(), kayttajat = get_users_w_project())
+    return render_template("auth/registration.html", form = RegistrationForm(), kayttajat = User.query.all())
 
 @app.route("/auth/createuser", methods=["POST"])
 @login_required(role="ADMIN")
