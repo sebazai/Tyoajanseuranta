@@ -7,6 +7,7 @@ from application.kirjaus.forms import KirjausForm
 from application.userproject.models import Userproject
 from application.project.models import Projekti
 from application.userproject.views import generate_form
+from application.project.views import hae_ensisijainen_projekti
 
 from datetime import datetime, time, date
 from sqlalchemy import desc
@@ -98,15 +99,6 @@ def kirjaus_create():
     
     return redirect(url_for("kirjaus_index"))
 
-@login_required
-def hae_ensisijainen_projekti():
-    stmt = text("SELECT * FROM userproject WHERE account_id = :accountid AND paaprojekti = :true").params(accountid = current_user.id, true = True)
-    res = db.session().execute(stmt)
-    row = res.first()
-    if row is None:
-        return None
-    projekti = row['id']
-    return projekti
 
 def laske_kertyma(minuutit, userprojekti):
     stmtfirst = text("SELECT project_id FROM userproject WHERE userproject.id = :userproject").params(userproject = userprojekti)
