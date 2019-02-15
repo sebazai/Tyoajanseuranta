@@ -7,6 +7,7 @@ from sqlalchemy.sql import text
 from application import app, db, login_required
 from application.auth.models import User
 from application.userproject.models import Userproject
+from application.project.models import Projekti
 from application.kirjaus.models import Kirjaus
 from application.auth.forms import LoginForm, RegistrationForm, UpdateForm
 
@@ -34,7 +35,8 @@ def auth_logout():
 @app.route("/auth/register")
 @login_required(role="ADMIN")
 def auth_register():
-    return render_template("auth/registration.html", form = RegistrationForm(), kayttajat = User.query.all())
+    print(get_users_w_project())
+    return render_template("auth/registration.html", form = RegistrationForm(), kayttajat = get_users_w_project())
 
 @app.route("/auth/createuser", methods=["POST"])
 @login_required(role="ADMIN")
@@ -94,3 +96,7 @@ def kayttaja_poista(account_id):
     db.session.commit()
     return redirect(url_for("auth_register"))
 
+def get_users_w_project():
+    stmt = text("SELECT Account.id, Account.name, Account.username, Projekti.name AS projekti FROM account INNER JOIN Userproject ON Userproject.account_id = Account.id AND Userproject.paaprojekti = 1 INNER JOIN Projekti ON Projekti.id = Userproject.project_id GROUP BY Account.name ORDER BY Account.name ASC").params(paaprojekti = True)
+    res = db.session().execute(stmt)
+    return res
