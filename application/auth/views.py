@@ -97,6 +97,6 @@ def kayttaja_poista(account_id):
     return redirect(url_for("auth_register"))
 
 def get_users_w_project():
-    stmt = text("SELECT Account.id, Account.name, Account.username, Projekti.name AS projekti FROM account INNER JOIN Userproject ON Userproject.account_id = Account.id AND Userproject.paaprojekti = :paaprojekti INNER JOIN Projekti ON Projekti.id = Userproject.project_id GROUP BY Account.name ORDER BY Account.name ASC").params(paaprojekti = True)
+    stmt = text("SELECT Account.id, Account.name, Account.username, Projekti.name AS projekti FROM account INNER JOIN Userproject ON Userproject.account_id = Account.id AND Userproject.paaprojekti = :projekti INNER JOIN Projekti ON Projekti.id = Userproject.project_id GROUP BY Account.name ORDER BY Account.name ASC").params(projekti = True)
     res = db.session().execute(stmt)
     return res
