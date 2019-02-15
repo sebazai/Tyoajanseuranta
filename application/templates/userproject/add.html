@@ -32,4 +32,19 @@
       </tr>
 	</table>
 </form>
+<br />
+<br />
+<table class="table table-striped">
+	<th scope="col">Nimi</th>
+	<th scope="col">Tunnus</th>
+	<th scope="col">Projekti</th>
+	{% for kayttaja in kayttajat %}
+	
+	<tr>
+		<td>{{kayttaja.name}}</td>
+		<td>{{kayttaja.username}}</td>
+		<td>{{kayttaja.projekti}}</td>
+	</tr>
+	{% endfor %}
+</table>
 {% endblock %}

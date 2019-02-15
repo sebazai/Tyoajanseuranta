@@ -59,11 +59,12 @@
 </form>
 <br />
 <br />
-<table>
-	<th>Poista</th>
-	<th>Nimi</th>
-	<th>Tunnus</th>
-	<th>Muokkaa</th>
+<table class="table table-striped">
+	<th scope="col">&nbsp;</th>
+	<th scope="col">Nimi</th>
+	<th scope="col">Tunnus</th>
+	<th scope="col">Projekti</th>
+	<th scope="col">&nbsp;</th>
 	{% for kayttaja in kayttajat %}
 	
 	<tr>
@@ -74,6 +75,7 @@
                 </td>
 		<td>{{kayttaja.name}}</td>
 		<td>{{kayttaja.username}}</td>
+		<td>{{kayttaja.projekti}}</td>
 		<td><a href="{{ url_for('kayttaja_update', account_id=kayttaja.id) }} "><button class="btn btn-warning">Edit</button></a></td>
 	</tr>
 	{% endfor %}

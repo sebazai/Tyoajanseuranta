@@ -1,13 +1,13 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<table>
+<table class="table table-striped">
 	<tr>
-		<th>Toiminto</th>
-		<th>Sisäänkirjaus</th>
-		<th>Uloskirjaus</th>
-		<th>Kertymä</th>
-		<th>Projekti</th>
+		<th scope="col">Toiminto</th>
+		<th scope="col">Sisäänkirjaus</th>
+		<th scope="col">Uloskirjaus</th>
+		<th scope="col">Kertymä</th>
+		<th scope="col">Projekti</th>
 	</tr>
 
 	{% for kirjaus in kirjauslista %}
