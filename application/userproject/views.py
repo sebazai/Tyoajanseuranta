@@ -62,7 +62,7 @@ def userproject_create():
             paivita_kayttaja(form.users.data, form.project.data, form.paaprojekti.data, form.asiakas.data)
         else:
             return render_template("userproject/add.html", form = generate_form(), error = "Liitä käyttäjä ensiksi projektiin.")
-    return redirect(url_for("userproject_form"))
+    return render_template("userproject/add.html", form = generate_form(), error = 'Käyttäjä liitetty projektiin onnistuneesti!')
 
 
 def paivita_kayttaja(account_id, projekti_id, paaprojekti, asiakas):
