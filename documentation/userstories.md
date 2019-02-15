@@ -83,7 +83,7 @@ DELETE FROM account WHERE Account.id = <poistettavan_id>
 
 #### 4. Projektihallinta
 
-* Projektit listataan sivulla "Käyttäjäliitokset"
+* Projektit listataan sivulla "Hallinnoi projekteja"
 
 ```sql
 SELECT * FROM projekti
@@ -110,7 +110,7 @@ name=<lomakkeesta_nimi>, customer=<lomakkeesta_asiakas>, vakiotyoaika=<lomakkees
 WHERE projekti.id = ?
 ```
 
-#### 5. Käyttäjäliitokset
+#### 5. Käyttäjäliitokset ja Asetukset sivu
 
 
 * Pääkäyttäjä voi liittää käyttäjän projektiin ja merkitä tämän ensisijaiseksi projektiksi (paaprojekti)
@@ -126,6 +126,19 @@ VALUES (<lomakkeesta_boolean>, <lomakkeesta_accountId>, <lomakkeesta_projectId>,
 ```sql
 UPDATE userproject SET paaprojekti = <lomakkeesta_boolean>, onAsiakas = <lomakkeesta_boolean> 
 WHERE account_id = <lomake_selectfield> AND project_id = <lomake_selectfield>
+```
+
+Kirjautunut käyttäjä voi muokata omia asetuksia oikeasta yläkulmasta "Asetukset" linkin takaa.
+
+Käyttäjä näkee projektit mihin hänet on liitetty ja näkee onko projektin asiakas mikäli käyttäjä on merkittynä asiakkaaksi projektiin.
+```sql
+SELECT Account.id, Account.name, Account.username, Projekti.name AS projekti, Userproject.onasiakas, Userproject.paaprojekti FROM account INNER JOIN Userproject ON Userproject.account_id = Account.id INNER JOIN Projekti ON Projekti.id = Userproject.project_id WHERE Account.id = <current_user.id>
+```
+
+Käyttäjä voi muuttaa työstettävää projektia, jolloin vanhasta projektista muutetaan "paaprojekti" boolean false ja uusi projekti true jonka käyttäjä on valinnut. Tämä ei vaihda ASIAKAS statusta.
+```sql
+UPDATE userproject SET paaprojekti = False WHERE account_id = <current_user.id> AND paaprojekti = True
+UPDATE userproject SET paaprojekti = True WHERE account_id = <current_user.id> AND project_id = <lomakkeesta>
 ```
 
 ## Yhteenvetokyselyt
