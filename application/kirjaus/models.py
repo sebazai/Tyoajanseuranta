@@ -7,8 +7,6 @@ import os
 
 from sqlalchemy.sql import text
 
-
-@staticmethod
 def jako_minuuteiksi(minuutit):
     if minuutit is None:
         return 0
