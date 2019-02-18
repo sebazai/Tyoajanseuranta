@@ -43,9 +43,15 @@ class Kirjaus(Base):
         stmt = text("SELECT SUM(Kirjaus.tehdytminuutit), Account.name, Projekti.name AS projektinimi FROM Kirjaus INNER JOIN Account ON Account.id = Kirjaus.account_id INNER JOIN Userproject ON Userproject.project_id = :projekti AND Userproject.account_id = Kirjaus.account_id AND Kirjaus.userproject_id = Userproject.id INNER JOIN Projekti ON Projekti.id = :projekti GROUP BY Account.name, Projekti.name ORDER BY Account.name ASC").params(projekti = projekti)
         res = db.engine.execute(stmt)
         response = []
-        if res.rowcount == 0:
+        if res is None:
             return response
         else:
             for row in res:
-                response.append({"tunnit":(row[0]), "name":row[1], "projekti":row[2]})
+                response.append({"tunnit":(jako_miinuteiksi(row[0])), "name":row[1], "projekti":row[2]})
             return response
+
+    def jako_minuuteiksi(minuutit):
+        if minuutit is None:
+            return 0
+        else:
+            return minuutit/60
