@@ -38,6 +38,14 @@ class Kirjaus(Base):
         for row in res:
             return row[0]
 
+
+    @staticmethod
+    def jako_minuuteiksi(minuutit):
+        if minuutit is None:
+            return 0
+        else:
+            return minuutit/60
+
     @staticmethod
     def asiakas_yhteenveto(projekti):
         stmt = text("SELECT SUM(Kirjaus.tehdytminuutit), Account.name, Projekti.name AS projektinimi FROM Kirjaus INNER JOIN Account ON Account.id = Kirjaus.account_id INNER JOIN Userproject ON Userproject.project_id = :projekti AND Userproject.account_id = Kirjaus.account_id AND Kirjaus.userproject_id = Userproject.id INNER JOIN Projekti ON Projekti.id = :projekti GROUP BY Account.name, Projekti.name ORDER BY Account.name ASC").params(projekti = projekti)
@@ -47,12 +55,6 @@ class Kirjaus(Base):
             return response
         else:
             for row in res:
-                response.append({"tunnit":(jako_minuuteiksi(row[0])), "name":row[1], "projekti":row[2]})
+                response.append({"tunnit":jako_minuuteiksi(row[0]), "name":row[1], "projekti":row[2]})
             return response
     
-    @staticmethod
-    def jako_minuuteiksi(minuutit):
-        if minuutit is None:
-            return 0
-        else:
-            return minuutit/60
