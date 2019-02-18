@@ -7,6 +7,14 @@ import os
 
 from sqlalchemy.sql import text
 
+
+@staticmethod
+def jako_minuuteiksi(minuutit):
+    if minuutit is None:
+        return 0
+    else:
+        return minuutit/60
+
 class Kirjaus(Base):
     
     sisaankirjaus = db.Column(db.DateTime, default=db.func.current_timestamp())
@@ -39,12 +47,6 @@ class Kirjaus(Base):
             return row[0]
 
 
-    @staticmethod
-    def jako_minuuteiksi(minuutit):
-        if minuutit is None:
-            return 0
-        else:
-            return minuutit/60
 
     @staticmethod
     def asiakas_yhteenveto(projekti):
