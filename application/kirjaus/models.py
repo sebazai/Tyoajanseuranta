@@ -47,7 +47,7 @@ class Kirjaus(Base):
             return response
         else:
             for row in res:
-                response.append({"tunnit":(jako_miinuteiksi(row[0])), "name":row[1], "projekti":row[2]})
+                response.append({"tunnit":(jako_minuuteiksi(row[0])), "name":row[1], "projekti":row[2]})
             return response
 
     def jako_minuuteiksi(minuutit):
