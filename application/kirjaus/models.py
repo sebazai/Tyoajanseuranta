@@ -49,7 +49,8 @@ class Kirjaus(Base):
             for row in res:
                 response.append({"tunnit":(jako_minuuteiksi(row[0])), "name":row[1], "projekti":row[2]})
             return response
-
+    
+    @staticmethod
     def jako_minuuteiksi(minuutit):
         if minuutit is None:
             return 0
