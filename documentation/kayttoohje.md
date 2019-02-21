@@ -18,4 +18,6 @@ Pääkäyttäjänä voit luoda, muokata ja poistaa käyttäjiä "Hallinnoi käyt
 Pääkäyttäjänä voit luoda, muokata ja poistaa projekteja "Hallinnoi projekteja" -sivun kautta.
 Pääkäyttäjänä voit liittää käyttäjiä projekteihin, muokata käyttäjän tietoja projektiin liittyen, eli onko käyttäjä asiakas tai onko tämä hänen ensisijainen projekti. Pääkäyttäjänä näet myös listauksen kaikista käyttäjäliitoksista.
 
+Kun poistat käyttäjän tai projektin, niin kaikki näihin liitetyt työleimaukset poistuvat myös.
+
 "Kirjaudu ulos" painikkeesta voi kirjautua ulos.

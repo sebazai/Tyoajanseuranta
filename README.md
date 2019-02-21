@@ -6,6 +6,7 @@ myös tiedot kunkin työntekijään yksityiskohtaisista kirjauksista.
 
 Toimintoja:
 * Kirjautuminen
+* Käyttäjän luominen
 * Leimaus sisään ja ulos
 * Työaikakirjauksen teko/poisto
 * Asiakkuuden/projektin perustaminen/poistaminen
