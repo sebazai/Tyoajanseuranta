@@ -36,7 +36,7 @@
 	<ul>
 		{% for user in asiakas %}
 		<li>
-			{{user.name}}: {{user.tunnit}}
+			{{user.name}}: {{ user.tunnit|round(2, 'floor')}}
 		</li>
 		{% endfor %}
 	</ul>
