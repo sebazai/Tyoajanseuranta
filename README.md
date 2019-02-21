@@ -26,7 +26,7 @@ Asiakas tunnus: asiakas/asiakaspw
 
 [Asennusohje](https://github.com/sebazai/tsoha-tyoajanseuranta/blob/master/documentation/asennusohje.md)
 
-[Tietokantakaavio](https://github.com/sebazai/tsoha-tyoajanseuranta/blob/master/documentation/tietokantakaavio.png)
+[Tietokantakaavio](https://github.com/sebazai/tsoha-tyoajanseuranta/blob/master/documentation/databasediagram.md)
 
 [Käyttäjätarinoita](https://github.com/sebazai/tsoha-tyoajanseuranta/blob/master/documentation/userstories.md)
 
