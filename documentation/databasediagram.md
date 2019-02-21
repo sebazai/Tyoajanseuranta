@@ -1,4 +1,8 @@
-Alustava tietokantasuunnitelma, joka voi vielä muuttua projektin edetessä.
+# Tietokannan rakenteesta ja huomautuksia
+
+Account taulun roolit kannattaisi tehdä omaksi tauluksi liitostaululla sekä projektin "customer" voisi olla oma taulunsa, mutta tämä on jätetty toteuttamatta ja tästä syystä tietokanta ei ole täysin normalisoitu. Tietokannassa ei ole noudatettua hyviä tapoja, joten suomi ja englanti on mennyt vähän sekaisin tehdessäni projektia.
+
+To-do listalla on myös salasanan tallettaminen sovelluksessa oikein, eikä perus tekstinä.
 
 ![Schema](https://github.com/sebazai/tsoha-tyoajanseuranta/blob/master/documentation/tietokantakaavio.png)
 
