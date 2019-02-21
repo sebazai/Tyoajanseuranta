@@ -1,18 +1,25 @@
 # Työajanseuranta
 Työajanseurantasovellus
 
-Työajanseurantajärjestelmää on tarkoitus käyttää asiakaskohtaiseen tai projektin työajanseurantaan. Asiakas saa järjestelmästä yhteenvetoja käytetystä työajasta. Kukin asiakkuuden parissa työskentelevä henkilö kirjaa järjestelmään tekemänsä työtunnit. Työntekijä saa nähtäväkseen tekemänsä kirjaukset. Hän saa esiin myös itseensä liittyvät yhteenvetoraportit. Asiakas ja pääkäyttäjä/esimies saa halutessaan käyttöönsä 
+Työajanseurantajärjestelmää on tarkoitus käyttää asiakaskohtaiseen tai projektin työajanseurantaan. Asiakas saa järjestelmästä yhteenvetoja käytetystä työajasta. Kukin asiakkuuden parissa työskentelevä henkilö kirjaa järjestelmään tekemänsä työtunnit. Työntekijä saa nähtäväkseen tekemänsä kirjaukset. Hän saa esiin myös muokattua ensisijaista projektiaan. Asiakas ja pääkäyttäjä/esimies saa halutessaan käyttöönsä 
 myös tiedot kunkin työntekijään yksityiskohtaisista kirjauksista.
 
 Toimintoja:
 * Kirjautuminen
 * Leimaus sisään ja ulos
-* Työaikakirjauksen teko
+* Työaikakirjauksen teko/poisto
 * Asiakkuuden/projektin perustaminen/poistaminen
-* Henkilön liittäminen asiakkuudesta/projektista
-* Asiakkaan raportit
-* Käyttäjän työraportti
-* Pääkäyttäjän/esimiehen raportit 
+* Henkilön liittäminen projektiin
+* Asiakkaan yhteenvetoraportti tehdyistä tunneista
+* Käyttäjän työaikaraportti
+
+Toimintoja tekemättä:
+* Käyttäjän poistaminen projektista
+* Pääkäyttäjän/esimiehen/asiakkaan yksityiskohtainen raportti työntekijöistä
+* Raportointikoontisivu asiakkaille/esimiehelle projekteittain
+* Työajan filtteröinti jonkin aikajakson välillä
+* Sivujen toimivuus mobiililla
+* Salasanan suojaus
 
 ## Linkkejä ja tietoa
 
