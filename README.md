@@ -20,6 +20,7 @@ Toimintoja tekemättä:
 * Työajan filtteröinti jonkin aikajakson välillä
 * Sivujen toimivuus mobiililla
 * Salasanan suojaus
+* Käyttäjänä voit muuttaa salasanaasi ja tietojasi
 
 ## Linkkejä ja tietoa
 
