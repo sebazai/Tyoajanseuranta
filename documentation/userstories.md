@@ -126,10 +126,10 @@ VALUES (<lomakkeesta_boolean>, <lomakkeesta_accountId>, <lomakkeesta_projectId>,
 UPDATE userproject SET paaprojekti = <lomakkeesta_boolean>, onAsiakas = <lomakkeesta_boolean> 
 WHERE account_id = <lomake_selectfield> AND project_id = <lomake_selectfield>
 ```
-	* Jos asiakas on merkittynä lomakkeessa kahdessa ylläolevassa kyselyssä, päivitetään käyttäjän rooli
-	```sql
-	UPDATE account SET role = 'ASIAKAS' WHERE id = <lomakkeesta_accountId>
-	```
+Huom! Jos asiakas on merkittynä lomakkeessa, kahdessa ylläolevassa kyselyssä, päivitetään käyttäjän rooli
+```sql
+UPDATE account SET role = 'ASIAKAS' WHERE id = <lomakkeesta_accountId>
+```
 
 Kirjautunut käyttäjä voi muokata omia asetuksia oikeasta yläkulmasta "Asetukset" linkin takaa.
 
