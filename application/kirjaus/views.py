@@ -99,6 +99,11 @@ def kirjaus_create():
     
     return redirect(url_for("kirjaus_index"))
 
+@app.route("/kirjaus/yhteenveto", methods=["GET"])
+@login_required
+def kirjaus_yhteenveto():
+    if current_user.role == "ADMIN":
+        print("moi")
 
 def laske_kertyma(minuutit, userprojekti):
     stmtfirst = text("SELECT project_id FROM userproject WHERE userproject.id = :userproject").params(userproject = userprojekti)

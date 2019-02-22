@@ -56,6 +56,9 @@ def userproject_create():
         userproject.project_id = form.project.data
         if(form.paaprojekti.data == True):
             tarkista_paaprojekti_ja_vaihda(form.users.data)
+        if(form.asiakas.data == True):
+            stmt = text("UPDATE account SET role = 'ASIAKAS' WHERE id = :accountid").params(accountid = form.users.data)
+            result = db.engine.execute(stmt)
         userproject.paaprojekti = form.paaprojekti.data
         
         db.session().add(userproject)
@@ -84,6 +87,9 @@ def userproject_create():
 def paivita_kayttaja(account_id, projekti_id, paaprojekti, asiakas):
     if current_user.role == "ADMIN":
         stmt = text("UPDATE userproject SET paaprojekti = :paaprojekti, onasiakas = :onasiakas WHERE account_id = :tili AND project_id = :projekti").params(paaprojekti = paaprojekti, onasiakas = asiakas, tili = account_id, projekti = projekti_id)
+        if (asiakas):
+            stmt2 = text("UPDATE account SET role = 'ASIAKAS' WHERE id = :asiakasid").params(asiakasid = account_id)
+            db.engine.execute(stmt2)
     else:
         stmt = text("UPDATE userproject SET paaprojekti = :paaprojekti WHERE account_id = :tili AND project_id = :projekti").params(paaprojekti = paaprojekti, tili = account_id, projekti = projekti_id)
     db.engine.execute(stmt)
