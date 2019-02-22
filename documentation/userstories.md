@@ -25,12 +25,12 @@ Käyttäjänä voin kirjata työajan, leimata sisään ja ulos reaaliajassa.
 
 * Käyttäjä voi lisätä työajan "Lisää työaika" linkin kautta.
 ```sql
-INSERT INTO kirjaus (sisaankirjaus, uloskirjaus, "tehdytMinuutit", kertyma, account_id) 
+INSERT INTO kirjaus (sisaankirjaus, uloskirjaus, tehdytminuutit, kertyma, account_id) 
 VALUES (<sisaankirjaus_aika>, <uloskirjaus_aika>, <tehdyt_minuutit>, <kertyma>, <current_user.id>)
 ```
 * Käyttäjä voi leimata sisään kirjautumisen jälkeen tai painamalla "Työajanseuranta" vasemmassa yläkulmassa.
 ```sql
-INSERT INTO kirjaus (sisaankirjaus, uloskirjaus, "tehdytMinuutit", kertyma, account_id) 
+INSERT INTO kirjaus (sisaankirjaus, uloskirjaus, tehdytminuutit, kertyma, account_id) 
 VALUES (<sisaankirjaus_aika_nyt>, <NULL>, <NULL>, <NULL>, <kirjautuneen_käyttäjän_id>);
 ```
 * Käyttäjä voi leimata ulos kirjautumisen jälkeen, mikäli on leimannut sisään ja kyseiselle tapahtumalle ei ole merkattu uloskirjausaikaa.
@@ -113,12 +113,11 @@ WHERE projekti.id = ?
 #### 5. Käyttäjäliitokset ja Asetukset sivu
 
 
-* Pääkäyttäjä voi liittää käyttäjän projektiin ja merkitä tämän ensisijaiseksi projektiksi (paaprojekti)
+* Pääkäyttäjä voi liittää käyttäjän projektiin ja merkitä tämän ensisijaiseksi projektiksi (paaprojekti) tai asiakkaaksi
 
 ```sql
-INSERT INTO userproject ("onAsiakas", account_id, project_id, unique_id, paaprojekti) 
-VALUES (<lomakkeesta_boolean>, <lomakkeesta_accountId>, <lomakkeesta_projectId>, 
-<accountId+projectId yhdistettyna>, <lomakkeesta boolean>)
+INSERT INTO userproject (onasiakas, account_id, project_id, paaprojekti) 
+VALUES (<lomakkeesta_boolean>, <lomakkeesta_accountId>, <lomakkeesta_projectId>, <lomakkeesta boolean>)
 ```
 
 * Pääkäyttäjä voi päivittää käyttäjän ensisijaista projektia (pääprojekti) ja merkitä myös käyttäjän asiakkaaksi.
@@ -127,6 +126,10 @@ VALUES (<lomakkeesta_boolean>, <lomakkeesta_accountId>, <lomakkeesta_projectId>,
 UPDATE userproject SET paaprojekti = <lomakkeesta_boolean>, onAsiakas = <lomakkeesta_boolean> 
 WHERE account_id = <lomake_selectfield> AND project_id = <lomake_selectfield>
 ```
+	* Jos asiakas on merkittynä lomakkeessa kahdessa ylläolevassa kyselyssä, päivitetään käyttäjän rooli
+	```sql
+	UPDATE account SET role = 'ASIAKAS' WHERE id = <lomakkeesta_accountId>
+	```
 
 Kirjautunut käyttäjä voi muokata omia asetuksia oikeasta yläkulmasta "Asetukset" linkin takaa.
 
