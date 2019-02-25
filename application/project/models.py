@@ -24,3 +24,8 @@ def hae_ensisijainen_projekti():
     projekti = row['id']
     return projekti
 
+def choices_registration_form():
+    stmt = text("SELECT Projekti.id, Projekti.name FROM Projekti")
+    res = db.engine.execute(stmt)
+    return res
+

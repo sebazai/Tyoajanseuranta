@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from sqlalchemy.sql import text
 from application import db
+from application.project.models import choices_registration_form
 from wtforms import PasswordField, StringField, validators, BooleanField, SelectField
 
 class LoginForm(FlaskForm):
@@ -11,8 +12,7 @@ class LoginForm(FlaskForm):
         csrf = False
 
 class RegistrationForm(FlaskForm):
-    stmt = text("SELECT Projekti.id, Projekti.name FROM Projekti")
-    res = db.engine.execute(stmt)
+    res = choices_registration_form()
     username = StringField("Uusi tunnus", [validators.Length(min=2, max=144)])
     password = PasswordField("Salasana", [validators.Length(min=8, max=144)])
     name = StringField("Nimi", [validators.Length(min=2, max=144)])
@@ -29,8 +29,4 @@ class UpdateForm(FlaskForm):
     class Meta:
         csrf = False
 
-#def choices_registration_form():
- #   stmt = text("SELECT Projekti.id, Projekti.name FROM Projekti")
- #   res = db.engine.execute(stmt)
- #   form.paaprojekti.choices = [(project.id, project.name) for project in res]
- #   return form
+
