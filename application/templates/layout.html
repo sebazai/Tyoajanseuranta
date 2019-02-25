@@ -14,7 +14,7 @@
 	</button>
 	<div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav mr-auto">
-		  {% if (current_user.role == 'USER') or (current_user.role == 'ADMIN') %}
+		  {% if (current_user.role == 'USER') or (current_user.role == 'ADMIN') or (current_user.role == 'ASIAKAS') %}
 	    <li class="nav-item">
               <a class="nav-link" href="{{ url_for('kirjaus_index') }} ">Merkatut työajat</a>
             </li>
