@@ -18,7 +18,6 @@ def auth_login():
         return render_template("auth/loginform.html", form = LoginForm())
 
     form = LoginForm(request.form)
-    #lisää validoinnit
 
     user = User.query.filter_by(username=form.username.data, password=form.password.data).first()
     if not user:
@@ -95,7 +94,3 @@ def kayttaja_poista(account_id):
     db.session.commit()
     return redirect(url_for("auth_register"))
 
-def get_users_w_project():
-    stmt = text("SELECT Account.id, Account.name, Account.username, Projekti.name AS projekti, Userproject.onasiakas AS onasiakas, Userproject.paaprojekti FROM account INNER JOIN Userproject ON Userproject.account_id = Account.id INNER JOIN Projekti ON Projekti.id = Userproject.project_id GROUP BY Account.id, Projekti.name, Userproject.onasiakas, Userproject.paaprojekti ORDER BY Account.name ASC")
-    res = db.session().execute(stmt)
-    return res

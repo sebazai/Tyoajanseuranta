@@ -4,11 +4,12 @@ from flask import render_template, request, redirect, url_for
 
 from application import app, db, login_required
 from application.kirjaus.models import Kirjaus
+from application.kirjaus.models import laske_kertyma
 from application.kirjaus.forms import KirjausForm
 from application.userproject.models import Userproject
 from application.project.models import Projekti
 from application.userproject.views import generate_form
-from application.project.views import hae_ensisijainen_projekti
+from application.project.models import hae_ensisijainen_projekti
 
 from datetime import datetime, time, date
 from sqlalchemy import desc
@@ -105,14 +106,4 @@ def kirjaus_create():
 def kirjaus_yhteenveto():
     print("moi") 
 
-def laske_kertyma(minuutit, userprojekti):
-    stmtfirst = text("SELECT project_id FROM userproject WHERE userproject.id = :userproject").params(userproject = userprojekti)
-    res2 = db.session().execute(stmtfirst)
-    row2 = res2.fetchone()
-    stmt = text("SELECT vakiotyoaika FROM projekti WHERE id = :projekti_id").params(projekti_id=row2['project_id'])
-    res = db.session().execute(stmt)
-    row = res.fetchone()
-    vakiotyoaika = row['vakiotyoaika']
-    kertyma = minuutit-vakiotyoaika
-    return kertyma
 

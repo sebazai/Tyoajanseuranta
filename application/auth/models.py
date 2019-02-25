@@ -1,6 +1,7 @@
 from application import db
 
 from application.models import Base
+from sqlalchemy.sql import text
 
 class User(Base):
 
@@ -31,3 +32,10 @@ class User(Base):
 
     def roles(self):
         return self.role
+
+
+def get_users_w_project():
+    stmt = text("SELECT Account.id, Account.name, Account.username, Projekti.name AS projekti, Userproject.onasiakas AS onasiakas, Userproject.paaprojekti FROM account INNER JOIN Userproject ON Userproject.account_id = Account.id INNER JOIN Projekti ON Projekti.id = Userproject.project_id GROUP BY Account.id, Projekti.name, Userproject.onasiakas, Userproject.paaprojekti ORDER BY Account.name ASC")
+    res = db.session().execute(stmt)
+    return res
+

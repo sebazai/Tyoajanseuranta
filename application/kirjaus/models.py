@@ -57,4 +57,15 @@ class Kirjaus(Base):
             for row in res:
                 response.append({"tunnit":jako_minuuteiksi(row[0]), "name":row[1], "projekti":row[2]})
             return response
-    
+
+def laske_kertyma(minuutit, userprojekti):
+    stmtfirst = text("SELECT project_id FROM userproject WHERE userproject.id = :userproject").params(userproject = userprojekti)
+    res2 = db.session().execute(stmtfirst)
+    row2 = res2.fetchone()
+    stmt = text("SELECT vakiotyoaika FROM projekti WHERE id = :projekti_id").params(projekti_id=row2['project_id'])
+    res = db.session().execute(stmt)
+    row = res.fetchone()
+    vakiotyoaika = row['vakiotyoaika']
+    kertyma = minuutit-vakiotyoaika
+    return kertyma
+
