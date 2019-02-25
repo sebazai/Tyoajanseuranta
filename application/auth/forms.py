@@ -29,8 +29,8 @@ class UpdateForm(FlaskForm):
     class Meta:
         csrf = False
 
-def choices_registration_form():
-    stmt = text("SELECT Projekti.id, Projekti.name FROM Projekti")
-    res = db.engine.execute(stmt)
-    form.paaprojekti.choices = [(project.id, project.name) for project in res]
-    return form
+#def choices_registration_form():
+ #   stmt = text("SELECT Projekti.id, Projekti.name FROM Projekti")
+ #   res = db.engine.execute(stmt)
+ #   form.paaprojekti.choices = [(project.id, project.name) for project in res]
+ #   return form
