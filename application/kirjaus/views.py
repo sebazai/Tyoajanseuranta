@@ -1,7 +1,8 @@
-from application import app, db
-from flask_login import login_required, current_user
+from flask_login import current_user
 from flask import render_template, request, redirect, url_for
 
+
+from application import app, db, login_required
 from application.kirjaus.models import Kirjaus
 from application.kirjaus.forms import KirjausForm
 from application.userproject.models import Userproject
@@ -14,7 +15,7 @@ from sqlalchemy import desc
 from sqlalchemy.sql import text, func
 
 @app.route("/kirjaus", methods=["GET"])
-@login_required
+@login_required()
 def kirjaus_index():
     userprojekti = Userproject.query.filter(Userproject.account_id == current_user.id, Userproject.paaprojekti == True).first()
     if userprojekti is None:
@@ -29,12 +30,12 @@ def kirjaus_index():
     return render_template("kirjaus/list.html", asiakas = asiakas, kirjauslista = kirjauslista, projekti = projekti.name, saldo = saldo)
 
 @app.route("/kirjaus/new/")
-@login_required
+@login_required()
 def kirjaus_form():
     return render_template("kirjaus/new.html", form = KirjausForm())
 
 @app.route("/kirjaus/<kirjaus_id>/", methods=["POST"])
-@login_required
+@login_required()
 def kirjaus_uloskirjaus(kirjaus_id):
 
     kirjaus = Kirjaus.query.get(kirjaus_id)
@@ -50,14 +51,14 @@ def kirjaus_uloskirjaus(kirjaus_id):
     return redirect(url_for("kirjaus_index"))
 
 @app.route("/kirjaus/delete/<kirjaus_id>", methods=["POST"])
-@login_required
+@login_required()
 def kirjaus_poista(kirjaus_id):
     Kirjaus.query.filter_by(id = kirjaus_id).delete()
     db.session().commit()
     return redirect(url_for("kirjaus_index"))
 
 @app.route("/kirjaus/sisaan", methods=["POST"])
-@login_required
+@login_required()
 def kirjaus_sisaan():
     now = datetime.now()
     kirjaus_sisaan = Kirjaus(datetime(now.year, now.month, now.day, now.hour, now.minute))
@@ -71,7 +72,7 @@ def kirjaus_sisaan():
     return redirect(url_for("kirjaus_index"))
 
 @app.route("/kirjaus/", methods=["POST"])
-@login_required
+@login_required()
 def kirjaus_create():
     form = KirjausForm(request.form)
     if form.timeout.data < form.time.data:
@@ -100,10 +101,9 @@ def kirjaus_create():
     return redirect(url_for("kirjaus_index"))
 
 @app.route("/kirjaus/yhteenveto", methods=["GET"])
-@login_required
+@login_required(role="ASIAKAS")
 def kirjaus_yhteenveto():
-    if current_user.role == "ADMIN":
-        print("moi")
+    print("moi") 
 
 def laske_kertyma(minuutit, userprojekti):
     stmtfirst = text("SELECT project_id FROM userproject WHERE userproject.id = :userproject").params(userproject = userprojekti)
