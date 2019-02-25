@@ -61,7 +61,7 @@ def project_create():
     db.session().add(project)
     db.session().commit()
 
-    return redirect(url_for("index"))
+    return redirect(url_for("project_form"))
 
 def hae_ensisijainen_projekti():
     stmt = text("SELECT * FROM userproject WHERE account_id = :accountid AND paaprojekti = :true").params(accountid = current_user.id, true = True)

@@ -62,7 +62,7 @@ def auth_create_user():
     except IntegrityError:
         db.session().rollback()
         return render_template("auth/registration.html", form = form, error = "Käyttäjätunnus varattu, valitse toinen käyttäjätunnus", kayttajat = User.query.all())
-    return redirect(url_for("index"))
+    return redirect(url_for("auth_register"))
 
 @app.route("/auth/update/<account_id>", methods = ["GET", "POST"])
 @login_required(role="ADMIN")
