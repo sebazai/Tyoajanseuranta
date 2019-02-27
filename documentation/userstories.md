@@ -171,3 +171,13 @@ AND Kirjaus.userproject_id = Userproject.id
 INNER JOIN Projekti ON Projekti.id = :projekti 
 GROUP BY Account.name, Projekti.name ORDER BY Account.name ASC;
 ```
+
+Esimies/pääkäyttäjä näkee kuinka resurssit on jaettu eri projekteihin, eli montako työntekijää kussakin projektissa on kyseisellä hetkellä. (Eli käyttäjillä pääprojekti = true)
+
+```sql
+SELECT COUNT(Account.id), Projekti.name FROM Account 
+INNER JOIN Userproject ON Userproject.account_id = Account.id 
+AND Userproject.paaprojekti = True 
+INNER JOIN Projekti ON Projekti.id = Userproject.project_id 
+GROUP BY Projekti.name;
+```
