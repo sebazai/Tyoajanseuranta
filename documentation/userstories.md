@@ -131,6 +131,7 @@ Huom! Jos asiakas on merkittynä lomakkeessa, kahdessa ylläolevassa kyselyssä,
 UPDATE account SET role = 'ASIAKAS' WHERE id = <lomakkeesta_accountId>
 ```
 
+
 Kirjautunut käyttäjä voi muokata omia asetuksia oikeasta yläkulmasta "Asetukset" linkin takaa.
 
 * Käyttäjä näkee projektit mihin hänet on liitetty ja näkee onko projektin asiakas mikäli käyttäjä on merkittynä asiakkaaksi projektiin.
@@ -142,7 +143,7 @@ INNER JOIN Projekti ON Projekti.id = Userproject.project_id
 WHERE Account.id = <current_user.id>
 ```
 
-Käyttäjä voi muuttaa työstettävää projektia, jolloin vanhasta projektista muutetaan "paaprojekti" boolean false ja uusi projekti true jonka käyttäjä on valinnut. Tämä ei vaihda ASIAKAS statusta.
+* Käyttäjä voi muuttaa työstettävää projektia, jolloin vanhasta projektista muutetaan "paaprojekti" boolean false ja uusi projekti true jonka käyttäjä on valinnut. Tämä ei vaihda ASIAKAS statusta.
 ```sql
 UPDATE userproject SET paaprojekti = False WHERE account_id = <current_user.id> AND paaprojekti = True
 
@@ -172,7 +173,7 @@ INNER JOIN Projekti ON Projekti.id = :projekti
 GROUP BY Account.name, Projekti.name ORDER BY Account.name ASC;
 ```
 
-Esimies/pääkäyttäjä näkee kuinka resurssit on jaettu eri projekteihin, eli montako työntekijää kussakin projektissa on kyseisellä hetkellä. (Eli käyttäjillä pääprojekti = true)
+Esimies/pääkäyttäjä näkee kuinka resurssit on jaettu eri projekteihin käyttäjäliitos sivulta, eli montako työntekijää kussakin projektissa on kyseisellä hetkellä. (käyttäjillä pääprojekti = true)
 
 ```sql
 SELECT COUNT(Account.id), Projekti.name FROM Account 
