@@ -101,9 +101,5 @@ def kirjaus_create():
     
     return redirect(url_for("kirjaus_index"))
 
-@app.route("/kirjaus/yhteenveto", methods=["GET"])
-@login_required(role="ASIAKAS")
-def kirjaus_yhteenveto():
-    print("moi") 
 
 

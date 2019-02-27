@@ -39,3 +39,7 @@ def get_users_w_project():
     res = db.session().execute(stmt)
     return res
 
+def get_users_per_project():
+    stmt = text("SELECT COUNT(Account.id) AS maara, Projekti.name AS projekti FROM Account INNER JOIN Userproject ON Userproject.account_id = Account.id AND Userproject.paaprojekti = :true INNER JOIN Projekti ON Projekti.id = Userproject.project_id GROUP BY Projekti.name").params(true = True)
+    res = db.session().execute(stmt)
+    return res

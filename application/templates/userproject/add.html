@@ -2,6 +2,7 @@
 
 {% block body %}
 {{ error }}
+<div style="float:left">
 <form method="POST" action="{{ url_for('userproject_create') }}">
 	<table>
 	<tr>
@@ -36,9 +37,19 @@
       </tr>
 	</table>
 </form>
-<br />
-<br />
-<table class="table table-striped">
+</div>
+
+{%if raportti is defined and raportti %}
+<div style="float:right">
+	<p><b>Työntekijöiden jakauma</b></p>
+	{% for item in raportti %}
+	{{ item.projekti }}: {{ item.maara }}<br />
+	{% endfor %}
+</div>
+{% endif %}
+
+
+<table class="table table-striped" style="padding-top: 15px">
 	<th scope="col">Nimi</th>
 	<th scope="col">Tunnus</th>
 	<th scope="col">Projekti</th>
