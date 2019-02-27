@@ -6,7 +6,7 @@ myös tiedot kunkin työntekijään yksityiskohtaisista kirjauksista.
 
 Toimintoja:
 * Kirjautuminen
-* Käyttäjän luominen
+* Käyttäjän luominen ja poistaminen
 * Leimaus sisään ja ulos
 * Työaikakirjauksen teko/poisto
 * Asiakkuuden/projektin perustaminen/poistaminen
@@ -22,6 +22,9 @@ Toimintoja tekemättä:
 * Sivujen toimivuus mobiililla
 * Salasanan suojaus
 * Käyttäjänä voit muuttaa salasanaasi ja tietojasi
+
+Havaittuja ongelmia:
+* Jos pääkäyttäjä poistaa itsensä, sovellus kaatuu
 
 ## Linkkejä ja tietoa
 
