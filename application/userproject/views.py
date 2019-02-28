@@ -54,7 +54,7 @@ def userproject_create():
             db.session.rollback()
             message = "Käyttäjä on jo liitetty projektiin"
             return get_add_html_site(message, get_users_w_project())
-
+        tarkista_paaprojekti_ja_vaihda(form.users.data)
         message = "Käyttäjä liitetty projektiin onnistuneesti!"
         return get_add_html_site(message, get_users_w_project())
 
