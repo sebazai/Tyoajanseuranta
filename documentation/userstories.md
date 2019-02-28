@@ -145,7 +145,7 @@ WHERE Account.id = <current_user.id>
 
 * Käyttäjä voi muuttaa työstettävää projektia, jolloin vanhasta projektista muutetaan "paaprojekti" boolean false ja uusi projekti true jonka käyttäjä on valinnut. Tämä ei vaihda ASIAKAS statusta.
 ```sql
-UPDATE userproject SET paaprojekti = False WHERE account_id = <current_user.id> AND paaprojekti = True
+UPDATE userproject SET paaprojekti = False WHERE project_id != <asken_muokattu/lisatty> AND account_id = <current_user.id> AND paaprojekti = True
 
 UPDATE userproject SET paaprojekti = True 
 WHERE account_id = <current_user.id> AND project_id = <lomakkeesta>
