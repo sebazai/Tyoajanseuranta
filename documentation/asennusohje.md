@@ -2,7 +2,7 @@
 
 Jostakin selvitettämättömästä syystä tietokannat ei generoidu automaattisesti, joten on sqlite:llä luotava tietokannat käsin. Taulujen luomista varten löydät komennot [täältä](https://github.com/sebazai/tsoha-tyoajanseuranta/blob/master/documentation/databasediagram.md)
 
-1. Asenna Python koneellesi (versio 3.5 tai uudempi)
+1. Asenna Python koneellesi (versio 3.5 tai uudempi) ja sqlite3
 2. Lataa sovelluksen koodi Githubista "Clone or download" painikkeesta valitsemalla "Download ZIP".
 3. Pura ZIP tiedosto haluaamasi sijaintiin koneellasi
 4. Avaa terminaali tai Windowsissa terminaaliemulaattori ja navigoi kansioon mihin tiedostot purit
