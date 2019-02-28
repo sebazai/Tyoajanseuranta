@@ -1,5 +1,5 @@
-from application import db, login_required
-from flask_login import current_user
+from application import db
+from flask_login import login_required, current_user
 from application.models import Base
 from datetime import datetime, date
 
@@ -25,20 +25,19 @@ class Kirjaus(Base):
 
     def __init__(self, sisaankirjaus):
         self.sisaankirjaus = sisaankirjaus
-    
-    # jos on leimannu sisään, niin haetaan uloskirjausaika vaan
+   
+    # haetaan kirjaus jos on, missä uloskirjaus null, eli käytetty sisäänleimaa nappia
     @staticmethod
     @login_required
     def find_kirjaus_with_null():
         stmt = text("SELECT * FROM Kirjaus WHERE account_id = :accountid AND uloskirjaus IS NULL").params(accountid = current_user.id)
-
         res = db.engine.execute(stmt)
         palautus = []
         for row in res:
             palautus.append({"id":row[0], "sisaankirjaus":datetime.strftime(row[3] if os.environ.get("HEROKU") else datetime.strptime(row[3], "%Y-%m-%d %H:%M:%S.%f"), "%Y-%m-%d %H:%M:%S"), "uloskirjaus":row[4]})
         return palautus
 
-    # haetaan tehdyistä tunneista saldo
+    # haetaan saldo, eli kertymä summana
     @staticmethod
     @login_required
     def get_saldo(userprojektid):
