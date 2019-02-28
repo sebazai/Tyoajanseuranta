@@ -42,8 +42,8 @@ def hae_kirjautuneen_kayttajat_nakyma():
     res = db.session().execute(stmt)
     return res
 
-def tarkista_paaprojekti_ja_vaihda(accountidparam):
-    stmt = text("SELECT * FROM userproject WHERE account_id = :accountid AND paaprojekti = :projekti").params(accountid=accountidparam, projekti=True)
+def tarkista_paaprojekti_ja_vaihda(accountidparam, notthisproject):
+    stmt = text("SELECT * FROM userproject WHERE project_id != :notthisproject AND account_id = :accountid AND paaprojekti = :projekti").params(accountid=accountidparam, projekti=True, notthisproject = notthisproject)
     res = db.engine.execute(stmt)
     row = res.fetchone()
     if row != None:
