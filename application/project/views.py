@@ -21,11 +21,7 @@ def project_form():
 @login_required(role="ADMIN")
 def projekti_poista(project_id):
     stmt = text("DELETE FROM Kirjaus WHERE userproject_id = (SELECT id FROM userproject WHERE project_id = :projectid)").params(projectid = project_id)
-    try:
-        res = db.session.execute(stmt)
-    except IntegrityError:
-        print("No items")
-
+    res = db.session.execute(stmt)
     Userproject.query.filter_by(project_id=project_id).delete()
     db.session.commit()
     Projekti.query.filter_by(id = project_id).delete()
