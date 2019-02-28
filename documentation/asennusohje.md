@@ -1,5 +1,7 @@
 # Asennusohje paikallisesti
 
+Jostakin selvitettämättömästä syystä tietokannat ei generoidu automaattisesti, joten on sqlite:llä luotava tietokannat käsin. Taulujen luomista varten löydät komennot [täältä](https://github.com/sebazai/tsoha-tyoajanseuranta/blob/master/documentation/databasediagram.md)
+
 1. Asenna Python koneellesi (versio 3.5 tai uudempi)
 2. Lataa sovelluksen koodi Githubista "Clone or download" painikkeesta valitsemalla "Download ZIP".
 3. Pura ZIP tiedosto haluaamasi sijaintiin koneellasi
@@ -8,8 +10,12 @@
 6. Virtuaaliympäristö pitää vielä aktivoida syöttämällä terminaaliin: `source venv/bin/activate` tai Windowsissa source `venv/scripts/activate`
 7. Päivitä pip komennolla: `pip install --upgrade pip`
 8. Asenna projektin riippuvuudet syöttämällä: `pip install -r requirements.txt`
-9. Nyt sovellus voidaan käynnistää komennolla: `python3 run.py`
-10. Sovellus voidaan avata selaimessa osoitteessa: `localhost:5000`
+9. Navigoi application kansioon ja kirjoita `touch tuntikirjaus.db`
+10. Aja `sqlite3 tuntikirjaus.db` komento
+11. Luo tietokannat yllä olevan linkin kautta.
+12. Luo admin tunnus: `INSERT INTO account(name, username, password, role) VALUES ('admin', 'admin', 'adminpw', 'ADMIN');`
+13. Nyt sovellus voidaan käynnistää komennolla: `python3 run.py` sovelluskansion juuresta.
+14. Sovellus voidaan avata selaimessa osoitteessa: `localhost:5000`
 
 # Siirtäminen Herokuun paikallisesta asennuksesta
 
@@ -43,6 +49,6 @@ Asennathan Herokun työvälineet. Asennusohjeet löytyvät [täältä](https://d
 10. Lisää admin käyttäjä seuraavilla komennoilla:
    ```
    heroku pg:psql
-   INSERT INTO account (name, username, password) VALUES ('admin', 'admin', 'adminpw');
+   INSERT INTO account (name, username, password, role) VALUES ('admin', 'admin', 'adminpw', 'ADMIN');
    \q
    ```
