@@ -3,6 +3,7 @@ from flask_login import current_user
 from flask import render_template, request, redirect, url_for
 
 from sqlalchemy.sql import text
+from sqlalchemy.exc import IntegrityError
 
 from application.project.models import Projekti
 from application.project.forms import ProjectForm
@@ -20,7 +21,11 @@ def project_form():
 @login_required(role="ADMIN")
 def projekti_poista(project_id):
     stmt = text("DELETE FROM Kirjaus WHERE userproject_id = (SELECT id FROM userproject WHERE project_id = :projectid)").params(projectid = project_id)
-    res = db.session.execute(stmt)
+    try:
+        res = db.session.execute(stmt)
+    except IntegrityError:
+        print("No items")
+
     Userproject.query.filter_by(project_id=project_id).delete()
     db.session.commit()
     Projekti.query.filter_by(id = project_id).delete()
