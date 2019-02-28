@@ -18,7 +18,7 @@ class Userproject(Base):
     def __init__(self, asiakas):
         self.onasiakas = asiakas
 
-
+#päivitä käyttäjän ensisijaiset projektit ja asiakasstatus
 def paivita_kayttaja(account_id, projekti_id, paaprojekti, asiakas):
     if current_user.role == "ADMIN":
         stmt = text("UPDATE userproject SET paaprojekti = :paaprojekti, onasiakas = :onasiakas WHERE account_id = :tili AND project_id = :projekti").params(paaprojekti = paaprojekti, onasiakas = asiakas, tili = account_id, projekti = projekti_id)
@@ -36,12 +36,13 @@ def kayttajan_rooli_asiakkaaksi(account_id):
         stmt2 = text("UPDATE account SET role = 'ASIAKAS' WHERE id = :asiakasid").params(asiakasid = account_id)
         db.engine.execute(stmt2)
 
-
+# haetaan lista kayttäjän näkymästä, eli omat projektit ja liitokset
 def hae_kirjautuneen_kayttajat_nakyma():
     stmt = text("SELECT Account.id, Account.name, Account.username, Projekti.name AS projekti, Userproject.onasiakas, Userproject.paaprojekti FROM account INNER JOIN Userproject ON Userproject.account_id = Account.id INNER JOIN Projekti ON Projekti.id = Userproject.project_id WHERE Account.id = :accountid").params(accountid = current_user.id)
     res = db.session().execute(stmt)
     return res
 
+#jos on pääprojekti toisessa projektissa, laitetaan se false
 def tarkista_paaprojekti_ja_vaihda(accountidparam, notthisproject):
     stmt = text("SELECT * FROM userproject WHERE project_id != :notthisproject AND account_id = :accountid AND paaprojekti = :projekti").params(accountid=accountidparam, projekti=True, notthisproject = notthisproject)
     res = db.engine.execute(stmt)
@@ -51,6 +52,7 @@ def tarkista_paaprojekti_ja_vaihda(accountidparam, notthisproject):
         stmt2 = text("UPDATE userproject SET paaprojekti = :false WHERE account_id = :accountid AND paaprojekti = :projekti").params(false = False, accountid=accountidparam, projekti = True)
         result = db.engine.execute(stmt2)
 
+# luodaan lomake sivua add varten
 def generate_form():
     if current_user.role == "ADMIN":
         stmt = text("SELECT Projekti.id, Projekti.name FROM Projekti")

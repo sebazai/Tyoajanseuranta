@@ -1,5 +1,5 @@
-from application import db
-from flask_login import login_required, current_user
+from application import db, login_required
+from flask_login import current_user
 from application.models import Base
 from datetime import datetime, date
 
@@ -25,7 +25,8 @@ class Kirjaus(Base):
 
     def __init__(self, sisaankirjaus):
         self.sisaankirjaus = sisaankirjaus
-
+    
+    # jos on leimannu sisään, niin haetaan uloskirjausaika vaan
     @staticmethod
     @login_required
     def find_kirjaus_with_null():
@@ -36,6 +37,8 @@ class Kirjaus(Base):
         for row in res:
             palautus.append({"id":row[0], "sisaankirjaus":datetime.strftime(row[3] if os.environ.get("HEROKU") else datetime.strptime(row[3], "%Y-%m-%d %H:%M:%S.%f"), "%Y-%m-%d %H:%M:%S"), "uloskirjaus":row[4]})
         return palautus
+
+    # haetaan tehdyistä tunneista saldo
     @staticmethod
     @login_required
     def get_saldo(userprojektid):
@@ -45,7 +48,7 @@ class Kirjaus(Base):
             return row[0]
 
 
-
+    # asiakkaan yhteenveto tehdyistä tunneista
     @staticmethod
     def asiakas_yhteenveto(projekti):
         stmt = text("SELECT SUM(Kirjaus.tehdytminuutit), Account.name, Projekti.name AS projektinimi FROM Kirjaus INNER JOIN Account ON Account.id = Kirjaus.account_id INNER JOIN Userproject ON Userproject.project_id = :projekti AND Userproject.account_id = Kirjaus.account_id AND Kirjaus.userproject_id = Userproject.id INNER JOIN Projekti ON Projekti.id = :projekti GROUP BY Account.name, Projekti.name ORDER BY Account.name ASC").params(projekti = projekti)
@@ -58,6 +61,7 @@ class Kirjaus(Base):
                 response.append({"tunnit":jako_minuuteiksi(row[0]), "name":row[1], "projekti":row[2]})
             return response
 
+#lasketaan kertymä tehdystä päivästä sisaankirjaus-uloskirjaus minuuteiksi ja - vakiotyoaika
 def laske_kertyma(minuutit, userprojekti):
     stmtfirst = text("SELECT project_id FROM userproject WHERE userproject.id = :userproject").params(userproject = userprojekti)
     res2 = db.session().execute(stmtfirst)

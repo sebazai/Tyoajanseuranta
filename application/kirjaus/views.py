@@ -19,11 +19,13 @@ from sqlalchemy.sql import text, func
 @login_required()
 def kirjaus_index():
     userprojekti = Userproject.query.filter(Userproject.account_id == current_user.id, Userproject.paaprojekti == True).first()
+    # jos ei käyttäjällä ensisijaista projektia, siirretään käyttäjä asetus sivulle
     if userprojekti is None:
         return render_template("userproject/add.html", form = generate_form(), error = "Liitä projektiin, ennen kuin voit kirjata työaikoja")
     projekti = Projekti.query.filter(Projekti.id == userprojekti.project_id).first()
     kirjauslista = Kirjaus.query.filter(Kirjaus.account_id == current_user.id, Kirjaus.userproject_id == userprojekti.id).order_by(desc(Kirjaus.sisaankirjaus)).all()
     saldo = Kirjaus.get_saldo(userprojekti.id)
+    # jos asiakas projektissa, haetaan yhteenvetoraportti sivua varten
     if userprojekti.onasiakas is True:
         asiakas = Kirjaus.asiakas_yhteenveto(userprojekti.project_id)
     else:
@@ -91,6 +93,7 @@ def kirjaus_create():
     kirjaus.tehdytminuutit = minuutit
     kirjaus.account_id = current_user.id
     projekti = hae_ensisijainen_projekti()
+    #jos käyttäjä ei ole projektissa, ei voi kirjata aikaa, siirretään asetus sivulle
     if projekti is None:
         return render_template("userproject/add.html", form = generate_form(), error = "Liitä projektiin, ennen kuin voit kirjata työaikoja")
     kirjaus.kertyma = laske_kertyma(minuutit, projekti)

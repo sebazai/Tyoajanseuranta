@@ -60,8 +60,7 @@ def userproject_create():
         if(form.paaprojekti.data == True):
             tarkista_paaprojekti_ja_vaihda(form.users.data, form.project.data)
             paivita_kayttaja(form.users.data, form.project.data, form.paaprojekti.data, form.asiakas.data)
-        if(form.asiakas.data == True):
-            kayttajan_rooli_asiakkaaksi(form.users.data)
+        
         message = "Käyttäjä liitetty projektiin onnistuneesti!"
         return get_add_html_site(message, get_users_w_project())
 

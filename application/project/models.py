@@ -15,6 +15,7 @@ class Projekti(Base):
         self.customer = customer
         self.vakiotyoaika = vakiotyoaika
 
+#haetaan käyttäjän ensisijainen projekti
 def hae_ensisijainen_projekti():
     stmt = text("SELECT * FROM userproject WHERE account_id = :accountid AND paaprojekti = :true").params(accountid = current_user.id, true = True)
     res = db.session().execute(stmt)
@@ -24,6 +25,7 @@ def hae_ensisijainen_projekti():
     projekti = row['id']
     return projekti
 
+# projektilistaus selectfieldiin
 def choices_registration_form():
     stmt = text("SELECT Projekti.id, Projekti.name FROM Projekti")
     res = db.engine.execute(stmt)
