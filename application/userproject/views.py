@@ -47,14 +47,21 @@ def userproject_create():
         userproject.account_id = form.users.data
         userproject.project_id = form.project.data
         userproject.paaprojekti = form.paaprojekti.data 
+
         db.session().add(userproject)
         try:
             db.session().commit()
+
         except IntegrityError:
             db.session.rollback()
             message = "Käyttäjä on jo liitetty projektiin"
             return get_add_html_site(message, get_users_w_project())
-        tarkista_paaprojekti_ja_vaihda(form.users.data)
+        
+        if(form.paaprojekti.data == True):
+            tarkista_paaprojekti_ja_vaihda(form.users.data, form.project.data)
+            paivita_kayttaja(form.users.data, form.project.data, form.paaprojekti.data, form.asiakas.data)
+        if(form.asiakas.data == True):
+            kayttajan_rooli_asiakkaaksi(form.users.data)
         message = "Käyttäjä liitetty projektiin onnistuneesti!"
         return get_add_html_site(message, get_users_w_project())
 
@@ -65,7 +72,7 @@ def userproject_create():
         res.close()
         #jos käyttäjä liitettynä projektiin
         if row != None: 
-            tarkista_paaprojekti_ja_vaihda(form.users.data)
+            tarkista_paaprojekti_ja_vaihda(form.users.data, form.project.data)
             paivita_kayttaja(form.users.data, form.project.data, form.paaprojekti.data, form.asiakas.data)
         else:
             #liitä käyttäjä projektiin
