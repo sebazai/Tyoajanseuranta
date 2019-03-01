@@ -16,6 +16,7 @@ Toimintoja:
 
 Toimintoja tekemättä:
 * Käyttäjän poistaminen projektista
+* Käyttäjän roolin muuttaminen
 * Pääkäyttäjän/esimiehen/asiakkaan yksityiskohtainen raportti työntekijöistä
 * Raportointikoontisivu asiakkaille/esimiehelle projekteittain
 * Työajan filtteröinti jonkin aikajakson välillä
@@ -25,6 +26,7 @@ Toimintoja tekemättä:
 
 Havaittuja ongelmia:
 * Jos pääkäyttäjä poistaa itsensä, sovellus kaatuu
+* Jos käyttäjän ASIAKAS status poistetaan projektista, jää käyttäjälle ASIAKAS rooli silti
 
 ## Linkkejä ja tietoa
 
